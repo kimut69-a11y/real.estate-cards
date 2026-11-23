@@ -177,7 +177,7 @@ def auction_cards(n, p):
 <span style="font-size: 36px; font-weight: 700; opacity: 0.75; flex: none">{k}</span>
 <span style="font-size: 40px; font-weight: 900; text-align: right">{v}</span></div>""" for k, v in items)
     out[1] = page(f"경매 {n} 1 표지", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px">
-<span style="align-self: flex-start; background: {LIME}; color: {INK}; font-size: 34px; font-weight: 900; padding: 12px 28px; border-radius: 999px">이번 주 추천 경매 매물</span>
+<span style="align-self: flex-start; background: {LIME}; color: {INK}; font-size: 34px; font-weight: 900; padding: 12px 28px; border-radius: 999px">추천 경매 매물</span>
 <div style="font-size: 44px; font-weight: 900; opacity: 0.9">{p["case_no"]}</div>
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["hook"],108,888)}px; line-height: 1.12; color: {LIME}">{p["hook"]}</div>
 <div style="font-size: 46px; font-weight: 700; line-height: 1.45">{p["sub"]}</div>
