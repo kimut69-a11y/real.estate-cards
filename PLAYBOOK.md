@@ -23,7 +23,7 @@
 - 파일 이름 (날짜 = 게시일, YYYYMMDD):
   - 뉴스 카드: `posts/daily/YYYY-MM-DD.json` 의 type=info, id=YYYYMMDD, prefix="N" → `cards/NYYYYMMDD-1~6.jpg`
   - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4`
-  - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~6.jpg`
+  - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~8.jpg` (입지 페이지가 없으면 1~7)
 - 도구: `tools/cards.py`(카드), `tools/shorts.py`(쇼츠), `tools/setup_tts.sh`(음성 도구 설치, 매 실행 처음에 1회)
 
 ## 1. 준비 (매 실행)
@@ -75,6 +75,13 @@
 - 예상 입찰가: 최근 3개월 동일평형 실거래 평균, 지역 아파트 낙찰가율, 취득세·비용, 목표수익률 10%를 근거로 범위로 제시(스킬의 엑셀 계산과 일치해야 함). 근거를 5번 카드에 적음
 - 형식(type=auction, prefix="A"): case_no("OO지방법원 2026타경12345"), hook(감정가·최저가 2줄), 표지 배지는 '추천 경매 매물', sub(지역·단지·평형·유찰·매각일), overview 5줄 `[["항목","값"],...]`, rights 4줄(말소기준권리/임차인/인수 권리/특수사항), rights_verdict(한 줄 결론), doc_date(명세서 열람일), market 4줄, market_note, bid("1억 9,300만 ~ 9,800만"), bid_basis, bid_rows 2줄, checklist 4개, src
 - **표지 배경 사진**: 법원경매정보 물건상세 페이지의 '전경도'·'관련사진'(이미지는 data URI) 중 단지 외관이 잘 보이고 사람 얼굴·차량번호·현관 호수·내부가 보이지 않는 사진 1장을 고른다. 브라우저에서 그 이미지를 화면 좌상단에 원본 크기로 띄운 뒤 computer zoom으로 캡처하면 결과 이미지가 작업 환경의 /tmp/claude-tool-results/ 아래에 저장되니, 그 파일을 `cards/bg/AYYYYMMDD.jpg`로 복사하고 JSON에 `"bg_image": "cards/bg/AYYYYMMDD.jpg"`를 넣는다(출처 '사진: 법원경매정보 현황조사서'가 자동 표기됨). 마땅한 사진이 없으면 bg_image 없이 기본 파란 배경
+- **카드 구성(8장)**: 표지 → **입지 포인트(지도)** → 물건 개요 → 권리분석 → 시세 → 예상 입찰가 → 입찰 전 체크·경고 → **팔로우 안내**(마지막 장 문구 "계속해서 매력적인 경매 매물을 받아보고 싶으면 팔로우! 부탁드려요 / 궁금하신 사항 있으면 DM 혹은 댓글 부탁드립니다"는 cards.py가 자동으로 넣음)
+- **입지 포인트(`location`)**: 매수자 눈길을 끄는 강점 3개(역세권·초품아/학교 거리·대형마트·공원/산책로·IC·직장(산단) 등 확인된 것만). 거리는 OpenStreetMap 좌표로 계산한 **직선거리**로 적고 "약 360m"처럼 반올림. 학교·역 이름은 학교알리미/오늘학교 등으로 실제 존재 확인. 확인 못 한 강점은 넣지 않음(과장 금지, "학군 최고" 같은 평가 문구 금지)
+  - 좌표: 내장 브라우저로 openstreetmap.org 를 열고(허용됨) 페이지에서 `fetch('https://nominatim.openstreetmap.org/search?format=json&countrycodes=kr&limit=15&q=<검색어>&viewbox=<서,북,동,남>&bounded=1')` 로 학교·IC·역 좌표를 얻는다(요청 사이 1.1초 간격). 단지는 지도에서 이름 라벨 위치로 잡는다
+  - 지도 배경: `https://www.openstreetmap.org/export/embed.html?bbox=<서>,<남>,<동>,<북>&layer=mapnik` (가로 약 1.8km) 를 열고 3초 대기 → `.leaflet-control-zoom` 제거 → computer zoom으로 지도 영역(세로로 긴 부분, 하단 저작권 줄 제외)을 캡처 → /tmp/claude-tool-results/ 의 파일을 PIL로 4:5 크롭 후 1080×1350 리사이즈·GaussianBlur(1.0)·채도 0.8 → `cards/bg/AYYYYMMDD-map.jpg`
+  - JSON: `"location": {"map_image": "...", "shift": 0~250(핀들이 위쪽 60% 안에 오도록 지도를 위로 올리는 픽셀), "headline": "초·중학교가 단지 바로 옆"(가장 강한 강점 한 줄), "pins": [{"x":..,"y":..,"label":"단지명","e":"🏠","main":true}, {"x":..,"y":..,"label":"OO초","e":"🏫"}, ...최대 3~4개], "points": [["🏫","제목","세부(거리 등)"], ×3], "note": "거리는 단지 기준 직선거리"}` — 핀 x,y는 1080×1350 지도 이미지 기준 픽셀(핀 끝이 그 지점을 가리킴). 렌더 후 반드시 2번 카드를 Read로 보고 핀이 실제 위치를 가리키는지, 제목·하단 패널과 겹치지 않는지 확인
+  - 지도 캡처가 안 되면 location 없이 7장으로 게시(입지 강점은 캡션에만)
+- 캡션에도 마지막에 `계속해서 매력적인 경매 매물들을 받아보고 싶으면 팔로우! 부탁드리고, 궁금하신 사항 있으면 DM 혹은 댓글 부탁드립니다 💬` 한 줄을 경고문 앞에 넣는다
 - 캡션: 사건번호·매각기일·한 줄 요약 / 빈 줄 / `⚠ 투자 판단과 책임은 본인에게 있습니다. 공개 자료 기반 개인 분석이며 법률·투자 자문이 아닙니다. 입찰 전 등기부등본·매각물건명세서 원문과 현장을 반드시 확인하세요.` / 빈 줄 / `#부동산썰방 #경매 #법원경매 #아파트경매 #경매물건 #지역명`
 - 분석 엑셀(`분석_<사건번호>.xlsx`)은 모의입찰 폴더에도 저장
 
@@ -91,11 +98,11 @@
 ```
 인스타그램 @real.estate_kr에 '부동산 썰방' 카드뉴스 <파일접두사>를 게시하세요. 사용자가 미리 요청한 자동 게시이며, 이 작업은 이 게시물 하나만 올립니다.
 1. Windsor.ai for Social Media 커넥터의 execute_action 도구를 사용하세요(지연 로드 상태면 ToolSearch로 먼저 불러오세요). connector="instagram", account="17841435414933916", action="create_carousel_post".
-2. params의 image_urls는 아래 6개 주소를 이 순서 그대로, caption은 아래 <<< >>> 사이 원문 그대로 넣으세요.
+2. params의 image_urls는 아래 주소 전부를 이 순서 그대로, caption은 아래 <<< >>> 사이 원문 그대로 넣으세요.
 3. 실패하면 오류를 확인하고 한 번만 다시 시도하세요. 첫 시도가 실제로 게시됐는지 불확실하면 중복 게시를 막기 위해 재시도하지 말고 보고만 하세요.
 4. 결과(성공 시 media id, 실패 시 오류 내용)를 한 줄로 보고하세요. 다른 게시물이나 댓글은 올리지 마세요.
 image_urls:
-(6줄)
+(카드 장수만큼, 뉴스 6줄 · 경매 8줄)
 caption:
 <<<
 (캡션)
