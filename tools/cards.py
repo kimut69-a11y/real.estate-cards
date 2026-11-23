@@ -167,6 +167,52 @@ def info_cards(n, p):
 </div>""")
     return out
 
+
+def auction_cards(n, p):
+    """이번 주 추천 경매 매물 6장: 표지 → 물건 개요 → 권리분석 → 시세 → 예상 입찰가 → 체크리스트·경고."""
+    out = {}
+    def rows(items, light=True):
+        bg, fg = ("#FFFFFF", INK) if light else ("rgba(255,255,255,0.12)", "#FFFFFF")
+        return "\n".join(f"""<div style="display: flex; justify-content: space-between; align-items: center; gap: 24px; background: {bg}; color: {fg}; border-radius: 26px; padding: 26px 34px">
+<span style="font-size: 36px; font-weight: 700; opacity: 0.75; flex: none">{k}</span>
+<span style="font-size: 40px; font-weight: 900; text-align: right">{v}</span></div>""" for k, v in items)
+    out[1] = page(f"경매 {n} 1 표지", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px">
+<span style="align-self: flex-start; background: {LIME}; color: {INK}; font-size: 34px; font-weight: 900; padding: 12px 28px; border-radius: 999px">이번 주 추천 경매 매물</span>
+<div style="font-size: 44px; font-weight: 900; opacity: 0.9">{p["case_no"]}</div>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["hook"],108,888)}px; line-height: 1.12; color: {LIME}">{p["hook"]}</div>
+<div style="font-size: 46px; font-weight: 700; line-height: 1.45">{p["sub"]}</div>
+</div>""", 1, foot("넘겨서 분석 보기 →"))
+    out[2] = page(f"경매 {n} 2 개요", "#FFFFFF", INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">물건 개요</div>
+{rows(p["overview"])}
+</div>""", 2, """<div style="display: flex; justify-content: space-between; font-size: 32px; font-weight: 700"><span>@real.estate_kr</span><span>→</span></div>""", pill_dark=True)
+    risk = p.get("rights_verdict", "")
+    out[3] = page(f"경매 {n} 3 권리", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">권리분석</div>
+{rows(p["rights"], light=False)}
+<div style="background: {LIME}; color: {INK}; border-radius: 26px; padding: 28px 34px; font-size: 42px; font-weight: 900; line-height: 1.4">{risk}</div>
+</div>""", 3, f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">매각물건명세서·현황조사서 기준 ({p.get("doc_date","")}) · 원문 확인 필수</div>
+<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""")
+    out[4] = page(f"경매 {n} 4 시세", LIME, INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">시세 비교</div>
+{rows(p["market"])}
+<div style="font-size: 36px; font-weight: 700; line-height: 1.45">{p.get("market_note","")}</div>
+</div>""", 4, """<div style="display: flex; justify-content: space-between; font-size: 32px; font-weight: 700"><span>@real.estate_kr</span><span>→</span></div>""", pill_dark=True)
+    out[5] = page(f"경매 {n} 5 입찰가", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
+<div style="font-size: 42px; font-weight: 700">썰방 예상 입찰가</div>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["bid"],120,888)}px; line-height: 1.1; color: {LIME}">{p["bid"]}</div>
+<div style="font-size: 40px; font-weight: 700; line-height: 1.5">{p["bid_basis"]}</div>
+{rows(p.get("bid_rows", []))}
+</div>""", 5, foot("→"))
+    checks = "\n".join(f"""<div style="display: flex; gap: 22px; align-items: flex-start; font-size: 40px; font-weight: 700; line-height: 1.4"><span style="color: {LIME}">✓</span><span>{c}</span></div>""" for c in p["checklist"])
+    out[6] = page(f"경매 {n} 6 체크", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">입찰 전 체크</div>
+<div style="display: flex; flex-direction: column; gap: 18px">{checks}</div>
+<div style="border: 4px solid #FF5A5A; border-radius: 26px; padding: 26px 32px; font-size: 34px; font-weight: 700; line-height: 1.5; color: #FFD0D0">⚠ 투자 판단과 책임은 본인에게 있습니다. 공개 자료를 바탕으로 한 개인 분석이며 법률·투자 자문이 아닙니다. 입찰 전 등기부등본·매각물건명세서 원문과 현장을 반드시 직접 확인하세요.</div>
+</div>""", 6, f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">출처: {p["src"]}</div>
+<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""")
+    return out
+
 FONT_CSS = """<style>
 @font-face{font-family:'Black Han Sans';src:url('file://%(r)s/fonts/BlackHanSans-Regular.ttf')}
 @font-face{font-family:'Noto Sans KR';src:url('file://%(r)s/fonts/NotoSansKR[wght].ttf');font-weight:100 900}
@@ -189,17 +235,17 @@ def main():
         for post in data["posts"]:
             n = int(post["id"])
             if only and n not in only: continue
-            maker = info_cards if post.get("type") == "info" else cards
-            if post.get("type") == "reel" and not post.get("also_cards"): continue
+            maker = {"info": info_cards, "auction": auction_cards}.get(post.get("type"), cards)
+            if post.get("type") in ("reel", "short") and not post.get("also_cards"): continue
             for k, s in maker(n, post).items():
-                tmp = os.path.join("/tmp", f"P{n:02d}-{k}.html")
+                tmp = os.path.join("/tmp", f"X{n}-{k}.html")
                 open(tmp, "w").write(plain(s))
                 pg.goto("file://" + tmp)
                 pg.evaluate("document.fonts.ready")
                 pg.wait_for_timeout(200)
                 fonts_ok = pg.evaluate("document.fonts.check(\"40px 'Black Han Sans'\") && document.fonts.check(\"40px 'Noto Sans KR'\")")
                 ov = pg.evaluate("(()=>{const r=document.body.firstElementChild; return [r.scrollWidth, r.scrollHeight]})()")
-                path = os.path.join(out_dir, f"P{n:02d}-{k}.jpg")
+                path = os.path.join(out_dir, f"{post.get('prefix', 'P')}{n:02d}-{k}.jpg")
                 pg.screenshot(path=path, type="jpeg", quality=90, clip={"x": 0, "y": 0, "width": 1080, "height": 1350})
                 if ov[0] > 1080 or ov[1] > 1350: problems.append(f"OVERFLOW P{n:02d}-{k} {ov}")
                 if not fonts_ok: problems.append(f"FONT P{n:02d}-{k}")
