@@ -176,11 +176,17 @@ def auction_cards(n, p):
         return "\n".join(f"""<div style="display: flex; justify-content: space-between; align-items: center; gap: 24px; background: {bg}; color: {fg}; border-radius: 26px; padding: 26px 34px">
 <span style="font-size: 36px; font-weight: 700; opacity: 0.75; flex: none">{k}</span>
 <span style="font-size: 40px; font-weight: 900; text-align: right">{v}</span></div>""" for k, v in items)
-    out[1] = page(f"경매 {n} 1 표지", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px">
+    cover_bg, credit = BLUE, ""
+    if p.get("bg_image"):  # 법원경매정보 현황조사서 전경 사진 (사람·차량번호·호수 안 보이는 것)
+        cover_bg = (f"linear-gradient(180deg, rgba(17,17,17,0.12) 0%, rgba(17,17,17,0.38) 38%, rgba(46,75,255,0.88) 72%, rgba(46,75,255,0.97) 100%), "
+                    f"url('file://{ROOT}/{p['bg_image']}') center/cover no-repeat")
+        credit = f'<div style="font-size: 24px; opacity: 0.75">사진: {p.get("bg_credit", "법원경매정보 현황조사서")}</div>'
+    out[1] = page(f"경매 {n} 1 표지", cover_bg, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px; margin-top: auto">
 <span style="align-self: flex-start; background: {LIME}; color: {INK}; font-size: 34px; font-weight: 900; padding: 12px 28px; border-radius: 999px">추천 경매 매물</span>
 <div style="font-size: 44px; font-weight: 900; opacity: 0.9">{p["case_no"]}</div>
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["hook"],108,888)}px; line-height: 1.12; color: {LIME}">{p["hook"]}</div>
 <div style="font-size: 46px; font-weight: 700; line-height: 1.45">{p["sub"]}</div>
+{credit}
 </div>""", 1, foot("넘겨서 분석 보기 →"))
     out[2] = page(f"경매 {n} 2 개요", "#FFFFFF", INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">물건 개요</div>
