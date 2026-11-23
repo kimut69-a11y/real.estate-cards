@@ -11,7 +11,7 @@
 게시물 형식 (type=short):
 {
   "id": 211, "type": "short", "title": "...", "slot": "...", "caption": "...", "src": "인천지법 2020가단207528",
-  "voice": {"sid": 8, "speed": 1.2},            # 선택. 기본 sid 8, speed 1.2
+  "voice": {"sid": 0, "speed": 1.15},           # 선택. 기본 sid 0(여성, 발음 정확도 최고), speed 1.15
   "lines": [
     {"say": "읽을 문장(숫자는 한글로)", "sub": "자막(숫자 표기 가능, | 로 자막 줄 나눔)",
      "hl": ["노란색 강조어"], "scene": {"type": "...", ...}},
@@ -196,7 +196,7 @@ def similarity(a, b):
 def build(p, pg):
     n = int(p["id"])
     v = p.get("voice", {})
-    sid, speed = v.get("sid", 8), v.get("speed", 1.2)
+    sid, speed = v.get("sid", 0), v.get("speed", 1.15)
     tmp = f"/tmp/short{n}"; shutil.rmtree(tmp, ignore_errors=True); os.makedirs(tmp)
 
     def shot(html_body, path):
