@@ -36,6 +36,8 @@
 장면이 바뀔 때마다 화면이 살짝 튀어 들어오고 '휙' 효과음, money/title/big 장면은 '쿵' 효과음.
 """
 import json, os, re, subprocess, sys, shutil, html
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from emoji import emoji_html  # noqa: E402  Microsoft Fluent Emoji 3D (MIT)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TTS = os.environ.get("TTS_DIR", os.path.expanduser("~/tts"))
@@ -115,22 +117,22 @@ def scene_html(sc):
         body = f'<div class="h" style="font-size:{sc.get("size",190)}px;color:{sc.get("color","#fff")}">{esc(sc["text"])}</div>'
     elif t == "emoji":
         lab = f'<div class="pill">{esc(sc["label"])}</div>' if sc.get("label") else ""
-        body = f'<div class="em" style="font-size:{sc.get("size",300)}px;letter-spacing:20px">{sc["emoji"]}</div>{lab}'
+        body = f'<div style="display:flex;gap:30px;justify-content:center">{emoji_html(sc["emoji"], sc.get("size",300))}</div>{lab}'
     elif t == "char":
         bub = f'<div class="bub">{esc(sc["say"])}</div>' if sc.get("say") else ""
-        prop = f'<div class="em" style="position:absolute;right:120px;bottom:120px;font-size:200px">{sc["prop"]}</div>' if sc.get("prop") else ""
+        prop = f'<div style="position:absolute;right:110px;bottom:110px">{emoji_html(sc["prop"], 220)}</div>' if sc.get("prop") else ""
         lab = f'<div class="pill">{esc(sc["label"])}</div>' if sc.get("label") else ""
         body = f'{bub}<div>{doodle(sc.get("face","normal"), sc.get("size",460))}</div>{lab}{prop}'
     elif t == "vs":
         L, R = sc["left"], sc["right"]
         body = f'''<div style="display:flex;align-items:flex-end;justify-content:center;gap:10px">
 <div style="display:flex;flex-direction:column;align-items:center;gap:20px">{doodle(L.get("face","normal"),360)}<div class="pill">{esc(L["label"])}</div></div>
-<div class="em" style="font-size:150px;margin-bottom:220px">{sc.get("mid","⚡")}</div>
+<div style="margin-bottom:220px">{emoji_html(sc.get("mid","⚡"), 160)}</div>
 <div style="display:flex;flex-direction:column;align-items:center;gap:20px">{doodle(R.get("face","angry"),360)}<div class="pill">{esc(R["label"])}</div></div></div>'''
     elif t == "money":
         body = f'''<div style="font-size:64px;font-weight:900;color:#fff">{esc(sc.get("label",""))}</div>
 <div class="h" style="font-size:{sc.get("size",170)}px;color:{YEL}">{esc(sc["amount"])}</div>
-<div class="em" style="font-size:200px">{sc.get("emoji","💸")}</div>'''
+<div>{emoji_html(sc.get("emoji","💸"), 230)}</div>'''
     elif t == "compare":
         def bar(x, c):
             return f'''<div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:700px;gap:18px">
@@ -139,14 +141,14 @@ def scene_html(sc):
 <div style="font-size:52px;font-weight:900;color:#fff">{esc(x[0])}</div></div>'''
         body = f'<div style="display:flex;gap:120px;align-items:flex-end">{bar(sc["a"],"#9AA5B1")}{bar(sc["b"],YEL)}</div>'
     elif t == "court":
-        body = f'''<div class="em" style="font-size:330px">{sc.get("emoji","⚖️")}</div>
+        body = f'''<div>{emoji_html(sc.get("emoji","⚖️"), 360)}</div>
 <div class="h" style="font-size:{sc.get("size",120)}px;color:#fff">{esc(sc["text"])}</div>'''
     elif t == "end":
         body = f'''<div class="h" style="font-size:{sc.get("size",130)}px;color:#fff">{esc(sc["text"])}</div>
 <div style="background:{BLUE};color:#fff;border-radius:40px;padding:34px 50px;font-size:58px;font-weight:900">{esc(sc.get("sub","팔로우하면 매일 1분 판례"))}</div>'''
     elif t == "big":
         txt = f'<div class="h" style="font-size:{sc.get("size",150)}px;color:{sc.get("color","#111")};-webkit-text-stroke:0">{esc(sc["text"])}</div>' if sc.get("text") else ""
-        body = f'<div class="em" style="font-size:{sc.get("esize",520)}px">{sc["emoji"]}</div>{txt}'
+        body = f'<div style="display:flex;gap:20px;justify-content:center">{emoji_html(sc["emoji"], sc.get("esize",520))}</div>{txt}'
     else:
         raise ValueError(t)
     return f'<div class="cv" style="background:{bg};color:{fg}"><div class="stage">{body}</div></div>'
@@ -160,7 +162,7 @@ def overlay_html():
 
 def sticker_html(pp):
     if pp.get("e"):
-        inner = f'<div class="em" style="font-size:{pp.get("size",230)}px;filter:drop-shadow(0 10px 0 rgba(0,0,0,.25))">{pp["e"]}</div>'
+        inner = f'<div>{emoji_html(pp["e"], pp.get("size",260))}</div>'
     else:
         col = pp.get("color", "#FF3B3B")
         inner = (f'<div style="font-family:BHS;font-size:{pp.get("size",120)}px;color:#fff;background:{col};border:8px solid #111;'
