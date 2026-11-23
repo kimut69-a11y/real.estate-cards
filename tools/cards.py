@@ -42,7 +42,7 @@ def page(title, bg, color, body, num, foot_right, pill_dark=False):
 body{{margin:0}}
 </style>
 </helmet>
-<div style="width: 1080px; height: 1350px; background: {bg}; box-sizing: border-box; padding: 88px 96px; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Noto Sans KR', sans-serif; color: {color}">
+<div style="width: 1080px; height: 1350px; background: {bg}; box-sizing: border-box; padding: 88px 96px; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; color: {color}">
 <div style="display: flex; justify-content: space-between; align-items: center">
 {pill}
 <span style="font-size: 30px; font-weight: 700">{num} / 6</span>
@@ -132,6 +132,41 @@ def cards(n, p):
     return out
 
 
+
+def info_cards(n, p):
+    """정보·정책 카드뉴스 6장: 표지 → 핵심 4개 → 3줄 요약."""
+    out = {}
+    out[1] = page(f"게시물 {n} 정보 1 표지", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 40px">
+<span style="align-self: flex-start; background: #FFFFFF; color: {BLUE}; font-size: 32px; font-weight: 900; padding: 12px 26px; border-radius: 999px">{p["tag"]}</span>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["hook"],116,888)}px; line-height: 1.12; color: {LIME}">{p["hook"]}</div>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["sub"],76,888)}px; line-height: 1.2">{p["sub"]}</div>
+</div>""", 1, foot("넘겨서 확인 →"))
+    looks = [(BLUE, "#FFFFFF", LIME, "#FFFFFF", INK, False), (INK, "#FFFFFF", LIME, BLUE, "#FFFFFF", False),
+             (LIME, INK, BLUE, "#FFFFFF", INK, True), (BLUE, "#FFFFFF", LIME, "#FFFFFF", INK, False)]
+    for i, it in enumerate(p["items"][:4]):
+        bg, fg, num_c, box_bg, box_fg, dark = looks[i]
+        tip = f'\n<div style="font-size: 36px; font-weight: 700; line-height: 1.45; opacity: 0.9">💡 {it["tip"]}</div>' if it.get("tip") else ""
+        out[i + 2] = page(f"게시물 {n} 정보 {i+2}", bg, fg, f"""<div style="display: flex; flex-direction: column; gap: 44px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 120px; line-height: 1; color: {num_c}">0{i+1}</div>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(it["t"],100,888)}px; line-height: 1.15">{it["t"]}</div>
+<div style="background: {box_bg}; color: {box_fg}; font-size: 44px; font-weight: 700; line-height: 1.55; padding: 44px 48px; border-radius: 36px">{it["b"]}</div>{tip}
+</div>""", i + 2, f"""<div style="display: flex; justify-content: space-between; align-items: center; font-size: 32px; font-weight: 700">
+<span>@real.estate_kr</span><span>→</span></div>""", pill_dark=dark)
+    rows = "\n".join(f"""<div style="display: flex; align-items: flex-start; gap: 26px; background: #FFFFFF; color: {INK}; border-radius: 30px; padding: 32px 38px">
+<span style="flex: none; width: 56px; height: 56px; border-radius: 50%; background: {LIME}; font-family: 'Black Han Sans', sans-serif; font-size: 36px; line-height: 56px; text-align: center">✓</span>
+<span style="font-size: 42px; font-weight: 900; line-height: 1.4">{x}</span></div>""" for x in p["sum_points"])
+    note = f'\n<div style="font-size: 36px; font-weight: 700; color: {LIME}; line-height: 1.45">{p["sum_note"]}</div>' if p.get("sum_note") else ""
+    out[6] = page(f"게시물 {n} 정보 6 요약", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 40px">
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 96px; line-height: 1.15">저장 각!<br><span style="color: {LIME}">3줄 요약</span></div>
+<div style="display: flex; flex-direction: column; gap: 20px">
+{rows}
+</div>{note}
+</div>""", 6, f"""<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="font-size: 26px; color: #C8C8C8; line-height: 1.5">{p.get("asof", "")} · 일반 정보이며 개별 상황은 전문가 확인<br>출처: {p["src"]}</div>
+<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span>
+</div>""")
+    return out
+
 FONT_CSS = """<style>
 @font-face{font-family:'Black Han Sans';src:url('file://%(r)s/fonts/BlackHanSans-Regular.ttf')}
 @font-face{font-family:'Noto Sans KR';src:url('file://%(r)s/fonts/NotoSansKR[wght].ttf');font-weight:100 900}
@@ -154,7 +189,9 @@ def main():
         for post in data["posts"]:
             n = int(post["id"])
             if only and n not in only: continue
-            for k, s in cards(n, post).items():
+            maker = info_cards if post.get("type") == "info" else cards
+            if post.get("type") == "reel" and not post.get("also_cards"): continue
+            for k, s in maker(n, post).items():
                 tmp = os.path.join("/tmp", f"P{n:02d}-{k}.html")
                 open(tmp, "w").write(plain(s))
                 pg.goto("file://" + tmp)
