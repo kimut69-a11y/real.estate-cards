@@ -21,7 +21,7 @@ def fit(text, base, width):
     m = max(vis_len(l) for l in lines)
     return int(min(base, width / (m * 0.97)))
 
-def page(title, bg, color, body, num, foot_right, pill_dark=False):
+def page(title, bg, color, body, num, foot_right, pill_dark=False, total=6):
     pill = (f'<span style="background: {INK}; color: {LIME}; font-weight: 900; font-size: 30px; padding: 12px 26px; border-radius: 999px">부동산 썰방</span>'
             if pill_dark else
             f'<span style="background: {LIME}; color: {INK}; font-weight: 900; font-size: 30px; padding: 12px 26px; border-radius: 999px">부동산 썰방</span>')
@@ -42,10 +42,10 @@ def page(title, bg, color, body, num, foot_right, pill_dark=False):
 body{{margin:0}}
 </style>
 </helmet>
-<div style="width: 1080px; height: 1350px; background: {bg}; box-sizing: border-box; padding: 88px 96px; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; color: {color}">
+<div style="position: relative; width: 1080px; height: 1350px; background: {bg}; box-sizing: border-box; padding: 88px 96px; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; color: {color}">
 <div style="display: flex; justify-content: space-between; align-items: center">
 {pill}
-<span style="font-size: 30px; font-weight: 700">{num} / 6</span>
+<span style="font-size: 30px; font-weight: 700; text-shadow: 0 0 6px rgba(0,0,0,0.6), 0 2px 12px rgba(0,0,0,0.4)">{num} / {total}</span>
 </div>
 {body}
 {footer}
@@ -169,55 +169,85 @@ def info_cards(n, p):
 
 
 def auction_cards(n, p):
-    """이번 주 추천 경매 매물 6장: 표지 → 물건 개요 → 권리분석 → 시세 → 예상 입찰가 → 체크리스트·경고."""
-    out = {}
+    """추천 경매 매물: 표지 → 입지 포인트(지도) → 물건 개요 → 권리분석 → 시세 → 예상 입찰가 → 체크리스트·경고 → 팔로우 안내."""
+    from emoji import emoji_html
     def rows(items, light=True):
         bg, fg = ("#FFFFFF", INK) if light else ("rgba(255,255,255,0.12)", "#FFFFFF")
         return "\n".join(f"""<div style="display: flex; justify-content: space-between; align-items: center; gap: 24px; background: {bg}; color: {fg}; border-radius: 26px; padding: 26px 34px">
 <span style="font-size: 36px; font-weight: 700; opacity: 0.75; flex: none">{k}</span>
 <span style="font-size: 40px; font-weight: 900; text-align: right">{v}</span></div>""" for k, v in items)
+    arrow = """<div style="display: flex; justify-content: space-between; font-size: 32px; font-weight: 700"><span>@real.estate_kr</span><span>→</span></div>"""
+    pages = []  # (title, bg, color, body, foot, pill_dark)
     cover_bg, credit = BLUE, ""
     if p.get("bg_image"):  # 법원경매정보 현황조사서 전경 사진 (사람·차량번호·호수 안 보이는 것)
         cover_bg = (f"linear-gradient(180deg, rgba(17,17,17,0.12) 0%, rgba(17,17,17,0.38) 38%, rgba(46,75,255,0.88) 72%, rgba(46,75,255,0.97) 100%), "
                     f"url('file://{ROOT}/{p['bg_image']}') center/cover no-repeat")
         credit = f'<div style="font-size: 24px; opacity: 0.75">사진: {p.get("bg_credit", "법원경매정보 현황조사서")}</div>'
-    out[1] = page(f"경매 {n} 1 표지", cover_bg, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px; margin-top: auto">
+    pages.append(("표지", cover_bg, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 34px; margin-top: auto">
 <span style="align-self: flex-start; background: {LIME}; color: {INK}; font-size: 34px; font-weight: 900; padding: 12px 28px; border-radius: 999px">추천 경매 매물</span>
 <div style="font-size: 44px; font-weight: 900; opacity: 0.9">{p["case_no"]}</div>
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["hook"],108,888)}px; line-height: 1.12; color: {LIME}">{p["hook"]}</div>
 <div style="font-size: 46px; font-weight: 700; line-height: 1.45">{p["sub"]}</div>
 {credit}
-</div>""", 1, foot("넘겨서 분석 보기 →"))
-    out[2] = page(f"경매 {n} 2 개요", "#FFFFFF", INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
+</div>""", foot("넘겨서 분석 보기 →"), False))
+    loc = p.get("location")
+    if loc:  # 입지 포인트: 배경 지도(OpenStreetMap) + 핀 + 강점 3개
+        bg = (f"linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 30%, rgba(17,17,17,0) 50%, rgba(17,17,17,0.88) 62%, rgba(17,17,17,1) 82%), "
+              f"url('file://{ROOT}/{loc['map_image']}') 0px {-loc.get('shift', 0)}px / 1080px 1350px no-repeat, {INK}")
+        pins = ""
+        for pin in loc.get("pins", []):
+            main = pin.get("main")
+            col, fg = (BLUE, "#FFFFFF") if main else ("#FFFFFF", INK)
+            pins += f"""<div style="position: absolute; left: {pin['x']}px; top: {pin['y'] - loc.get('shift', 0)}px; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center">
+<div style="display: flex; align-items: center; gap: 10px; background: {col}; color: {fg}; font-size: {40 if main else 32}px; font-weight: 900; padding: {'16px 26px' if main else '10px 20px'}; border-radius: 999px; border: 4px solid {INK}; box-shadow: 0 10px 24px rgba(0,0,0,.25); white-space: nowrap">{emoji_html(pin.get('e','📍'), 52 if main else 40)}{pin['label']}</div>
+<div style="width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent; border-top: 22px solid {INK}"></div></div>"""
+        pts = "\n".join(f"""<div style="display: flex; gap: 22px; align-items: center">{emoji_html(e, 70)}
+<div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 40px; font-weight: 900">{t}</span><span style="font-size: 30px; font-weight: 700; color: #D6D6D6">{d}</span></div></div>""" for e, t, d in loc["points"])
+        pages.append(("입지", bg, "#FFFFFF", f"""{pins}
+<div style="position: absolute; left: 96px; top: 168px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px">
+<span style="background: {INK}; color: #FFFFFF; font-size: 32px; font-weight: 900; padding: 8px 22px; border-radius: 12px">입지 포인트</span>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(loc['headline'],84,860)}px; line-height: 1.15; color: {INK}; background: {LIME}; padding: 10px 26px; border-radius: 18px; border: 5px solid {INK}">{loc['headline']}</div></div>
+<div style="display: flex; flex-direction: column; gap: 26px; margin-top: auto">
+{pts}
+</div>""", f"""<div style="display: flex; justify-content: space-between; align-items: center; font-size: 24px; color: #BDBDBD"><span>{loc.get('note','거리는 단지 기준 직선거리')} · 지도 © OpenStreetMap</span><span style="font-size: 32px; font-weight: 700; color: #FFFFFF">→</span></div>""", False))
+    pages.append(("개요", "#FFFFFF", INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">물건 개요</div>
 {rows(p["overview"])}
-</div>""", 2, """<div style="display: flex; justify-content: space-between; font-size: 32px; font-weight: 700"><span>@real.estate_kr</span><span>→</span></div>""", pill_dark=True)
+</div>""", arrow, True))
     risk = p.get("rights_verdict", "")
-    out[3] = page(f"경매 {n} 3 권리", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 22px">
+    pages.append(("권리", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 22px">
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">권리분석</div>
 {rows(p["rights"], light=False)}
 <div style="background: {LIME}; color: {INK}; border-radius: 26px; padding: 28px 34px; font-size: 42px; font-weight: 900; line-height: 1.4">{risk}</div>
-</div>""", 3, f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">매각물건명세서·현황조사서 기준 ({p.get("doc_date","")}) · 원문 확인 필수</div>
-<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""")
-    out[4] = page(f"경매 {n} 4 시세", LIME, INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
+</div>""", f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">매각물건명세서·현황조사서 기준 ({p.get("doc_date","")}) · 원문 확인 필수</div>
+<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""", False))
+    pages.append(("시세", LIME, INK, f"""<div style="display: flex; flex-direction: column; gap: 22px">
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">시세 비교</div>
 {rows(p["market"])}
 <div style="font-size: 36px; font-weight: 700; line-height: 1.45">{p.get("market_note","")}</div>
-</div>""", 4, """<div style="display: flex; justify-content: space-between; font-size: 32px; font-weight: 700"><span>@real.estate_kr</span><span>→</span></div>""", pill_dark=True)
-    out[5] = page(f"경매 {n} 5 입찰가", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
+</div>""", arrow, True))
+    pages.append(("입찰가", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
 <div style="font-size: 42px; font-weight: 700">썰방 예상 입찰가</div>
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: {fit(p["bid"],120,888)}px; line-height: 1.1; color: {LIME}">{p["bid"]}</div>
 <div style="font-size: 40px; font-weight: 700; line-height: 1.5">{p["bid_basis"]}</div>
 {rows(p.get("bid_rows", []))}
-</div>""", 5, foot("→"))
+</div>""", foot("→"), False))
     checks = "\n".join(f"""<div style="display: flex; gap: 22px; align-items: flex-start; font-size: 40px; font-weight: 700; line-height: 1.4"><span style="color: {LIME}">✓</span><span>{c}</span></div>""" for c in p["checklist"])
-    out[6] = page(f"경매 {n} 6 체크", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
+    pages.append(("체크", INK, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 30px">
 <div style="font-family: 'Black Han Sans', sans-serif; font-size: 84px; line-height: 1.1">입찰 전 체크</div>
 <div style="display: flex; flex-direction: column; gap: 18px">{checks}</div>
 <div style="border: 4px solid #FF5A5A; border-radius: 26px; padding: 26px 32px; font-size: 34px; font-weight: 700; line-height: 1.5; color: #FFD0D0">⚠ 투자 판단과 책임은 본인에게 있습니다. 공개 자료를 바탕으로 한 개인 분석이며 법률·투자 자문이 아닙니다. 입찰 전 등기부등본·매각물건명세서 원문과 현장을 반드시 직접 확인하세요.</div>
-</div>""", 6, f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">출처: {p["src"]}</div>
-<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""")
-    return out
+</div>""", f"""<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-size: 26px; color: #C8C8C8">출처: {p["src"]}</div>
+<span style="font-size: 32px; font-weight: 700; opacity: 0.85">@real.estate_kr</span></div>""", False))
+    pages.append(("팔로우", BLUE, "#FFFFFF", f"""<div style="display: flex; flex-direction: column; gap: 44px; align-items: flex-start">
+<div style="display: flex; gap: 18px">{emoji_html("🏠", 150)}{emoji_html("🔔", 150)}</div>
+<div style="font-family: 'Black Han Sans', sans-serif; font-size: 96px; line-height: 1.15">계속해서<br><span style="color: {LIME}">매력적인 경매 매물</span>을<br>받아보고 싶으면</div>
+<div style="background: {LIME}; color: {INK}; font-family: 'Black Han Sans', sans-serif; font-size: 80px; padding: 14px 44px; border-radius: 999px; border: 6px solid {INK}">팔로우! 부탁드려요</div>
+<div style="display: flex; align-items: center; gap: 20px; font-size: 42px; font-weight: 700; line-height: 1.5">{emoji_html("💬", 72)}<span>궁금하신 사항 있으면<br>DM 혹은 댓글 부탁드립니다</span></div>
+</div>""", """<div style="display: flex; justify-content: space-between; align-items: center; font-size: 36px; font-weight: 900"><span>@real.estate_kr</span><span style="opacity: 0.85">부동산 썰방</span></div>""", False))
+    total = len(pages)
+    return {i: page(f"경매 {n} {i} {t}", bg, col, body, i, ft, pill_dark=pd, total=total)
+            for i, (t, bg, col, body, ft, pd) in enumerate(pages, 1)}
 
 FONT_CSS = """<style>
 @font-face{font-family:'Black Han Sans';src:url('file://%(r)s/fonts/BlackHanSans-Regular.ttf')}
