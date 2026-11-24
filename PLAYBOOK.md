@@ -108,8 +108,11 @@ GS건설이 최종 선정되었습니다! 🎉
 - `git add cards reels posts && git commit -m "..." && git pull --rebase && git -c push.negotiate=true push`
 - 확인: `curl -s https://api.github.com/repos/kimut69-a11y/real.estate-cards/contents/<경로>` 에 size가 있어야 함
 
-## 6. 게시 예약 (Claude_Code_Remote create_trigger, 1회 실행)
-- name: `썰방 뉴스 MM/DD 12:30` / `썰방 쇼츠 MM/DD 21:00` / `썰방 경매 MM/DD 12:30`. 같은 이름이 이미 있으면 만들지 않음(list_triggers로 확인)
+## 6. 게시 예약
+- **쇼츠는 고정 작업 '썰방 매일 21:00 쇼츠 게시'(매일 21:00)가 자동 게시**한다. 이 작업은 `posts/daily/YYYY-MM-DD.json` 의 type=short, id=YYYYMMDD 게시물의 `caption` 필드와 `reels/SYYYYMMDD.mp4` 를 읽는다. 그러므로 제작 작업은 쇼츠용 1회 예약을 만들지 않고, **JSON에 caption 필드를 꼭 넣어 21:00 전에 push**만 하면 된다. 같은 날 이름이 '썰방 쇼츠 MM/DD 21:00'인 1회 예약이 있으면 고정 작업은 건너뛴다(중복 방지).
+- (이유: 자동 실행 중에는 예약 작업을 새로 만들 때 사용자 승인이 필요해 막힘. 2026-11-24 확인)
+- 카드뉴스(뉴스·경매)는 아직 아래 1회 예약 방식. 캡션은 JSON의 `caption` 필드에도 반드시 같이 저장한다(나중에 12:30 고정 작업으로 바꿀 때 사용).
+- 1회 예약 (Claude_Code_Remote create_trigger) name: `썰방 뉴스 MM/DD 12:30` / `썰방 쇼츠 MM/DD 21:00` / `썰방 경매 MM/DD 12:30`. 같은 이름이 이미 있으면 만들지 않음(list_triggers로 확인)
 - run_once_at: `YYYY-MM-DDTHH:MM:00[Asia/Seoul]`, initiation `human_schedule`, notifications `{"push": false}` (사용자는 매번 알림을 원하지 않음; 실패해도 다음 제작 작업이 보고)
 - 게시 시각이 이미 지났으면(제작이 늦어진 경우) 예약 대신 지금 바로 게시하지 말고 다음 날 같은 시각으로 예약
 
