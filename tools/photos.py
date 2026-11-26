@@ -160,7 +160,10 @@ def main():
                 ph = (search_pixabay if os.environ.get("PIXABAY_API_KEY") else search_pexels)(q, used)
                 if not ph:
                     warn.append(f"PHOTO S{n} 장면 {k}: '{q}' 검색 결과 없음 → 이모지 장면으로 대체됨"); continue
-                name = f"S{n}-{k}"
+                name, m = f"S{n}-{k}", k  # 이미 있는 파일(다른 장면 사진)을 덮어쓰지 않게 빈 번호를 씀
+                taken = {x.get("photo") for x in scenes_of(p)}
+                while os.path.exists(os.path.join(AUTO, name + ".jpg")) or f"auto/{name}" in taken:
+                    m += 1; name = f"S{n}-{m}"
                 out = os.path.join(AUTO, name + ".jpg")
                 open(out, "wb").write(get(ph["img"], auth=False))
                 fit(out)
