@@ -27,7 +27,8 @@
         "seoul apartments"
        ],
        "label": "전주 아파트",
-       "emoji": "🏠"
+       "emoji": "🏠",
+       "photo": "auto/S99991126-1"
       },
       {
        "type": "photo",
@@ -37,7 +38,8 @@
         "interior renovation"
        ],
        "label": "벽지·장판 새로",
-       "emoji": "🖌️"
+       "emoji": "🖌️",
+       "photo": "auto/S99991126-2"
       }
      ],
      "hl": [
@@ -88,7 +90,8 @@
         "clock time"
        ],
        "label": "매일 8번 반복",
-       "emoji": "🔊"
+       "emoji": "🔊",
+       "photo": "auto/S99991126-3"
       }
      ],
      "hl": [
@@ -112,7 +115,8 @@
         "living room sofa",
         "apartment interior living room"
        ],
-       "label": "집 전체에 소음"
+       "label": "집 전체에 소음",
+       "photo": "auto/S99991126-4"
       },
       {
        "type": "char",
@@ -143,7 +147,8 @@
         "noise meter"
        ],
        "label": "소음 기준치 초과",
-       "emoji": "🚨"
+       "emoji": "🚨",
+       "photo": "auto/S99991126-5"
       }
      ],
      "hl": [
@@ -169,7 +174,8 @@
         "industrial pump"
        ],
        "label": "급수펌프",
-       "emoji": "⚙️"
+       "emoji": "⚙️",
+       "photo": "auto/S99991126-6"
       },
       {
        "type": "photo",
@@ -177,7 +183,8 @@
         "boiler room pipes",
         "pump room pipes"
        ],
-       "label": "지하 기계실"
+       "label": "지하 기계실",
+       "photo": "auto/S99991126-7"
       }
      ],
      "hl": [
@@ -228,7 +235,8 @@
         "front door apartment",
         "apartment hallway"
        ],
-       "label": "원래 살던 집"
+       "label": "원래 살던 집",
+       "photo": "auto/S99991126-8"
       }
      ],
      "hl": [
@@ -282,7 +290,8 @@
         "legal documents"
        ],
        "label": "소송 시작",
-       "emoji": "📄"
+       "emoji": "📄",
+       "photo": "auto/S99991126-9"
       },
       {
        "type": "photo",
@@ -291,7 +300,8 @@
         "real estate contract"
        ],
        "label": "계약 해제 청구",
-       "emoji": "📜"
+       "emoji": "📜",
+       "photo": "auto/S99991126-10"
       }
      ],
      "hl": [
@@ -343,7 +353,8 @@
         "law gavel"
        ],
        "label": "산 사람 승",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S99991126-11"
       },
       {
        "type": "big",
@@ -381,7 +392,8 @@
         "seoul apartments night"
        ],
        "label": "살면서 들었을 소음",
-       "emoji": "👂"
+       "emoji": "👂",
+       "photo": "auto/S99991126-12"
       }
      ],
      "hl": [
@@ -406,7 +418,8 @@
         "house keys",
         "door key"
        ],
-       "label": "알았다면 안 샀다"
+       "label": "알았다면 안 샀다",
+       "photo": "auto/S99991126-13"
       },
       {
        "type": "char",
@@ -431,7 +444,8 @@
         "won banknotes"
        ],
        "label": "4,800만 + 426만",
-       "emoji": "💰"
+       "emoji": "💰",
+       "photo": "auto/S99991126-14"
       },
       {
        "type": "money",
@@ -468,7 +482,8 @@
         "paper receipts",
         "bills paper"
        ],
-       "label": "영수증이 부족"
+       "label": "영수증이 부족",
+       "photo": "auto/S99991126-15"
       }
      ],
      "hl": [
