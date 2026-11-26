@@ -58,7 +58,8 @@
         "서울 주택가"
        ],
        "label": "집이 경매로",
-       "emoji": "🔨"
+       "emoji": "🔨",
+       "photo": "auto/S20261126-2"
       }
      ],
      "hl": [
@@ -83,7 +84,8 @@
         "korean money"
        ],
        "label": "세입자 배당금",
-       "emoji": "💸"
+       "emoji": "💸",
+       "photo": "auto/S20261126-3"
       },
       {
        "type": "title",
@@ -118,7 +120,8 @@
         "legal documents",
         "paper documents"
        ],
-       "label": "계약 때 들은 설명"
+       "label": "계약 때 들은 설명",
+       "photo": "auto/S20261126-4"
       }
      ],
      "hl": [
@@ -209,7 +212,8 @@
         "legal documents"
        ],
        "label": "1심",
-       "emoji": "📚"
+       "emoji": "📚",
+       "photo": "auto/S20261126-7"
       },
       {
        "type": "title",
@@ -304,7 +308,8 @@
         "house keys",
         "door key"
        ],
-       "label": "세입자"
+       "label": "세입자",
+       "photo": "auto/S20261126-8"
       },
       {
        "type": "money",
@@ -341,7 +346,8 @@
         "contract signing document"
        ],
        "label": "틀린 설명",
-       "emoji": "❌"
+       "emoji": "❌",
+       "photo": "auto/S20261126-9"
       }
      ],
      "hl": [
@@ -366,7 +372,8 @@
         "seoul apartments",
         "아파트 단지"
        ],
-       "label": "세입자 손해"
+       "label": "세입자 손해",
+       "photo": "auto/S20261126-10"
       },
       {
        "type": "emoji",
@@ -424,7 +431,8 @@
         "signature document"
        ],
        "label": "위조된 동의서",
-       "emoji": "✍️"
+       "emoji": "✍️",
+       "photo": "auto/S20261126-12"
       },
       {
        "type": "char",

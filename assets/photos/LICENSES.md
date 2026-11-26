@@ -11,3 +11,11 @@
 | auto/S20261126-3.jpg | [qimono on Pixabay](https://pixabay.com/photos/gavel-auction-law-hammer-symbol-2492011/) | Pixabay License |
 | auto/S20261126-4.jpg | [silver_ms on Pixabay](https://pixabay.com/photos/street-road-daegu-korea-city-6509043/) | Pixabay License |
 | auto/S20261126-1.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/apartments-houses-buildings-7995893/) | Pixabay License |
+| auto/S20261126-2.jpg | [cskkkk on Pixabay](https://pixabay.com/photos/city-seoul-architecture-buildings-8139353/) | Pixabay License |
+| auto/S20261126-3.jpg | [manseok_Kim on Pixabay](https://pixabay.com/photos/money-don-10000-won-1308823/) | Pixabay License |
+| auto/S20261126-4.jpg | [Nile on Pixabay](https://pixabay.com/photos/paper-writing-old-antique-write-623167/) | Pixabay License |
+| auto/S20261126-7.jpg | [succo on Pixabay](https://pixabay.com/photos/hammer-books-law-dish-lawyer-620009/) | Pixabay License |
+| auto/S20261126-8.jpg | [congerdesign on Pixabay](https://pixabay.com/photos/house-key-apartment-property-4780574/) | Pixabay License |
+| auto/S20261126-9.jpg | [Tumisu on Pixabay](https://pixabay.com/photos/house-property-real-estate-mortgage-5902665/) | Pixabay License |
+| auto/S20261126-10.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/city-road-apartments-stairs-rise-7995884/) | Pixabay License |
+| auto/S20261126-12.jpg | [ds_30 on Pixabay](https://pixabay.com/photos/administrate-administrative-4847730/) | Pixabay License |
