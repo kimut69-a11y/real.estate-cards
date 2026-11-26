@@ -16,42 +16,48 @@
        "q": [
         "아파트 단지"
        ],
-       "label": "0"
+       "label": "0",
+       "photo": "auto/S99990004-1"
       },
       {
        "type": "photo",
        "q": [
         "아파트"
        ],
-       "label": "1"
+       "label": "1",
+       "photo": "auto/S99990004-2"
       },
       {
        "type": "photo",
        "q": [
         "korea apartment"
        ],
-       "label": "2"
+       "label": "2",
+       "photo": "auto/S99990004-3"
       },
       {
        "type": "photo",
        "q": [
         "apartment complex korea old"
        ],
-       "label": "3"
+       "label": "3",
+       "photo": "auto/S99990004-4"
       },
       {
        "type": "photo",
        "q": [
         "seoul apartments"
        ],
-       "label": "4"
+       "label": "4",
+       "photo": "auto/S99990004-5"
       },
       {
        "type": "photo",
        "q": [
         "incheon apartment"
        ],
-       "label": "5"
+       "label": "5",
+       "photo": "auto/S99990004-6"
       }
      ]
     }
