@@ -59,12 +59,18 @@ def _words(q):
 
 
 def search_pixabay(q, used):
-    """q: 검색어 하나 또는 여러 개(리스트). 한글 검색어는 lang=ko.
+    """q: 검색어 하나 또는 여러 개(리스트). 한글 검색어는 lang=ko. "id:숫자" 는 그 Pixabay 사진을 바로 씀.
     점수 = 검색어 단어가 태그에 있는 정도×2 + 한국 태그(korea·seoul·한국 등) + 세로 사진 가점.
     궁궐·절·음식·사람 위주 사진은 뺀다. 검색어 단어가 태그에 하나도 없으면 고르지 않는다."""
     qs = q if isinstance(q, list) else [q]
     best = None
     for one in qs:
+        if one.startswith("id:"):  # 특정 Pixabay 사진 지정 (예: "id:7995893")
+            u = "https://pixabay.com/api/?" + urllib.parse.urlencode({"key": os.environ["PIXABAY_API_KEY"], "id": one[3:]})
+            hits = json.loads(get(u, auth=False)).get("hits", [])
+            if hits:
+                best = (99, hits[0]); break
+            continue
         ko = any("\uac00" <= ch <= "\ud7a3" for ch in one)
         words = _words(one)
         for orient in ("vertical", "all"):

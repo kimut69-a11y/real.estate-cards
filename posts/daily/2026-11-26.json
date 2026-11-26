@@ -23,13 +23,11 @@
       {
        "type": "photo",
        "q": [
-        "seoul villa houses",
-        "korea residential buildings",
-        "서울 빌라"
+        "id:7995893",
+        "seoul villa houses"
        ],
        "label": "다가구주택 임대차",
-       "emoji": "🏠",
-       "photo": "auto/S20261126-1"
+       "emoji": "🏠"
       },
       {
        "type": "money",
