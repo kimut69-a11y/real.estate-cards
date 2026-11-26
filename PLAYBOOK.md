@@ -24,7 +24,7 @@
   - 뉴스 카드: `posts/daily/YYYY-MM-DD.json` 의 type=info, id=YYYYMMDD, prefix="N" → `cards/NYYYYMMDD-1~6.jpg`
   - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4` + 썸네일 `reels/SYYYYMMDD.jpg` (shorts.py가 함께 만듦. **둘 다 commit**, 받은 사진 `assets/photos/` 도 commit)
   - 썸네일: 무슨 이야기인지 한눈에 알게 한글 제목을 크게. 기본은 title을 첫 쉼표에서 나눠 '윗줄 + 노란 띠 질문'(예: "소음 숨기고 판 아파트, 계약 무를 수 있을까?"). 그래서 title은 '상황, 질문?' 꼴로 짧게. 필요하면 "cover": {"text", "q", "emoji"}로 직접 지정. 렌더 후 jpg를 직접 열어 글자가 잘리거나 넘치지 않는지 확인. 썸네일만 다시: `python3 tools/shorts.py --cover posts/daily/<날짜>.json`
-  - 실제 사진: 쇼츠마다 장면 3~5개를 photo 장면으로(집·아파트·계약서·법원·공사장 등 사람이 주인공이 아닌 장면). Pexels에서 자동으로 받음(`tools/photos.py`, 3번 렌더링 참고). 뉴스·방송 캡처, 다른 계정 사진은 절대 쓰지 않음
+  - 실제 사진: 쇼츠마다 장면 3~5개를 photo 장면으로(집·아파트·계약서·법원·공사장 등 사람이 주인공이 아닌 장면). Pixabay(기본, 환경 변수 PIXABAY_API_KEY) 또는 Pexels에서 자동으로 받음(`tools/photos.py`, 3번 렌더링 참고). 뉴스·방송 캡처, 다른 계정 사진은 절대 쓰지 않음
   - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~8.jpg` (입지 페이지가 없으면 1~7)
 - 도구: `tools/cards.py`(카드), `tools/shorts.py`(쇼츠), `tools/setup_tts.sh`(음성 도구 설치, 매 실행 처음에 1회)
 
@@ -60,7 +60,7 @@
 - voice는 보통 넣지 않음(기본: 여성 sid 0, 1.15배속 합성 + 재생 1.16배). 길이가 45초보다 짧으면 `"voice": {"tempo": 1.1}`
 - 효과음(장면 전환 '휙', 스티커 '뿅', 금액·제목 '쿵')은 자동으로 들어감
 ### 렌더링·검수
-0. `python3 tools/photos.py posts/daily/YYYY-MM-DD.json` → Pexels 사진을 `assets/photos/auto/`에 받고 JSON의 photo 장면·캡션 출처 줄(📷 Photos provided by Pexels · 사진: …)을 자동으로 채움. 'PHOTO … 받기 실패'가 나오면 그 장면은 이모지로 대체되니 그대로 진행하고 보고에 한 줄 적음(401=키 문제, 403=네트워크 허용 문제). 사진이 받아지면 장면 확인(3번)에서 사진이 내용과 어울리는지 보고, 어색하면 q를 바꿔 그 장면의 photo·credit을 지우고 다시 실행
+0. `python3 tools/photos.py posts/daily/YYYY-MM-DD.json` → 사진을 `assets/photos/auto/`에 받고 JSON의 photo 장면을 채움(Pexels로 받은 경우에만 캡션 출처 줄 📷 Photos provided by Pexels · 사진: … 자동 추가, Pixabay는 출처 표기 의무 없음). 'PHOTO … 받기 실패'가 나오면 그 장면은 이모지로 대체되니 그대로 진행하고 보고에 한 줄 적음(401=키 문제, 403=네트워크 허용 문제). 사진이 받아지면 장면 확인(3번)에서 사진이 내용과 어울리는지 보고, 어색하면 q를 바꿔 그 장면의 photo·credit을 지우고 다시 실행
 1. `python3 tools/shorts.py posts/daily/YYYY-MM-DD.json` → `reels/SYYYYMMDD.mp4`
 2. 출력의 `PRONUNCIATION` 경고: 그 문장의 `say`에서 잘못 들린 단어를 더 쉬운 말로 바꿔 다시 렌더링(최대 3번, 일치율 0.75 이상이고 뜻이 같게 들리면 통과). `OVERFLOW`는 글자·이모지 크기(size, esize)를 줄임. 종료 코드 0이어야 함
 3. 장면 확인: `ffmpeg -i reels/SYYYYMMDD.mp4 -vf "select='not(mod(n\,150))',scale=270:480,tile=6x2" -frames:v 1 /tmp/x.png` 후 Read로 보고 글자 잘림·겹침 확인

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""쇼츠 photo 장면에 들어갈 실제 사진을 Pexels에서 자동으로 받아온다.
+"""쇼츠 photo 장면에 들어갈 실제 사진을 Pixabay(기본) 또는 Pexels에서 자동으로 받아온다.
 
 사용법: python3 tools/photos.py posts/daily/YYYY-MM-DD.json [id ...]
 - type=short 게시물의 장면 중 {"type": "photo", "q": "영어 검색어", ...} 를 찾아
@@ -9,8 +9,9 @@
 - Pexels 이용 조건에 따라 캡션의 '🎙️ AI 음성' 줄 바로 위에 사진 출처 줄을 자동으로 넣는다.
 - 출처는 assets/photos/LICENSES.md 표에도 한 줄씩 남긴다.
 
-인증: 클라우드 환경의 '네트워크 비밀'(api.pexels.com, Authorization 헤더)이 키를 자동으로 붙인다.
-      환경 변수 PEXELS_API_KEY 가 있으면 그것을 쓴다.
+인증: 환경 변수 PIXABAY_API_KEY 가 있으면 Pixabay(허용 도메인 pixabay.com, cdn.pixabay.com).
+      Pixabay 사진은 출처 표기 의무가 없어 캡션은 건드리지 않고 LICENSES.md 에만 남긴다.
+      없으면 Pexels(PEXELS_API_KEY 또는 네트워크 비밀이 Authorization 헤더를 붙임, 캡션에 출처 줄 필수).
 사진을 못 받으면(키 없음·접속 차단·검색 결과 없음) 그 장면은 그대로 두고 경고만 출력한다.
 shorts.py가 사진 없는 photo 장면을 이모지 장면으로 바꿔 렌더링하므로 제작은 멈추지 않는다.
 """
@@ -44,6 +45,36 @@ def search(q, used):
     return None
 
 
+def search_pixabay(q, used):
+    for page in (1, 2):
+        u = "https://pixabay.com/api/?" + urllib.parse.urlencode(
+            {"key": os.environ["PIXABAY_API_KEY"], "q": q[:100], "image_type": "photo", "orientation": "vertical",
+             "min_height": 1200, "safesearch": "true", "per_page": 50, "page": page})
+        data = json.loads(get(u, auth=False))
+        for h in data.get("hits", []):
+            if f"pixabay-{h['id']}" not in used:
+                return {"id": f"pixabay-{h['id']}", "photographer": h.get("user", ""), "url": h.get("pageURL", ""),
+                        "img": h["largeImageURL"], "site": "Pixabay"}
+    return None
+
+
+def search_pexels(q, used):
+    ph = search(q, used)
+    if not ph:
+        return None
+    return {"id": str(ph["id"]), "photographer": ph.get("photographer", ""), "url": ph.get("url", ""),
+            "img": ph["src"]["original"].split("?")[0] + "?auto=compress&cs=tinysrgb&fit=crop&w=1080&h=1920", "site": "Pexels"}
+
+
+def fit(path):
+    """세로 1080x1920 으로 채워 자르기"""
+    import subprocess
+    tmp = path + ".tmp.jpg"
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", path, "-vf",
+                    "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920", "-q:v", "3", tmp], check=True)
+    os.replace(tmp, path)
+
+
 def scenes_of(p):
     for ln in p.get("lines", []):
         sc = ln.get("scene")
@@ -75,22 +106,24 @@ def main():
                     warn.append(f"PHOTO S{n} 장면 {k}: q(영어 검색어) 없음 → 이모지 장면으로 대체됨")
                 continue
             try:
-                ph = search(q, used)
+                ph = (search_pixabay if os.environ.get("PIXABAY_API_KEY") else search_pexels)(q, used)
                 if not ph:
                     warn.append(f"PHOTO S{n} 장면 {k}: '{q}' 검색 결과 없음 → 이모지 장면으로 대체됨"); continue
-                src = ph["src"]["original"].split("?")[0] + "?auto=compress&cs=tinysrgb&fit=crop&w=1080&h=1920"
                 name = f"S{n}-{k}"
-                open(os.path.join(AUTO, name + ".jpg"), "wb").write(get(src, auth=False))
+                out = os.path.join(AUTO, name + ".jpg")
+                open(out, "wb").write(get(ph["img"], auth=False))
+                fit(out)
             except Exception as e:  # 키 없음(401), 접속 차단(403) 등
                 warn.append(f"PHOTO S{n} 장면 {k}: 받기 실패 ({e}) → 이모지 장면으로 대체됨"); continue
             s["photo"] = f"auto/{name}"
-            s["credit"] = ph.get("photographer", "")
-            credits.append(s["credit"])
-            used[str(ph["id"])] = name
+            if ph["site"] == "Pexels":
+                s["credit"] = ph["photographer"]
+                credits.append(s["credit"])
+            used[ph["id"]] = name
             with open(LIC, "a") as f:
-                f.write(f"| auto/{name}.jpg | [{ph.get('photographer','')} on Pexels]({ph.get('url','')}) | Pexels License |\n")
+                f.write(f"| auto/{name}.jpg | [{ph['photographer']} on {ph['site']}]({ph['url']}) | {ph['site']} License |\n")
             changed = True
-            print(f"photo {name}.jpg ← '{q}' by {ph.get('photographer','')}")
+            print(f"photo {name}.jpg ← '{q}' by {ph['photographer']} ({ph['site']})")
         # 캡션 출처 줄
         if credits and p.get("caption"):
             names = ", ".join(dict.fromkeys(c for c in credits if c))
