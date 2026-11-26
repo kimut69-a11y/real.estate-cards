@@ -11,14 +11,7 @@
 | auto/S20261126-3.jpg | [qimono on Pixabay](https://pixabay.com/photos/gavel-auction-law-hammer-symbol-2492011/) | Pixabay License |
 | auto/S20261126-4.jpg | [silver_ms on Pixabay](https://pixabay.com/photos/street-road-daegu-korea-city-6509043/) | Pixabay License |
 | auto/S20261126-1.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/apartments-houses-buildings-7995893/) | Pixabay License |
-| auto/S99991125-1.jpg | [nabu88 on Pixabay](https://pixabay.com/photos/busan-building-building-apartments-4511204/) | Pixabay License |
 | auto/S99991125-2.jpg | [gregoriorosa on Pixabay](https://pixabay.com/photos/living-room-sofa-living-room-2882718/) | Pixabay License |
 | auto/S99991125-3.jpg | [Bru-nO on Pixabay](https://pixabay.com/photos/technology-heating-tube-industry-2069809/) | Pixabay License |
 | auto/S99991125-4.jpg | [Tumisu on Pixabay](https://pixabay.com/photos/contract-agreement-6951993/) | Pixabay License |
 | auto/S99991125-5.jpg | [Myhoby969 on Pixabay](https://pixabay.com/photos/gavel-judge-law-justice-8113195/) | Pixabay License |
-| auto/S99990004-1.jpg | [RELIAN on Pixabay](https://pixabay.com/ko/photos/%EA%B1%B4%EB%AC%BC-%EB%B0%9C%EC%BD%94%EB%8B%88-%EC%95%84%ED%8C%8C%ED%8A%B8-5807690/) | Pixabay License |
-| auto/S99990004-2.jpg | [wal_172619 on Pixabay](https://pixabay.com/ko/photos/%EB%8F%84%EC%8B%9C-%EB%8F%84%EB%A1%9C-%EC%95%84%ED%8C%8C%ED%8A%B8-%EA%B3%84%EB%8B%A8-7995884/) | Pixabay License |
-| auto/S99990004-3.jpg | [hyungname on Pixabay](https://pixabay.com/photos/south-korea-daegu-sunset-nightview-3616701/) | Pixabay License |
-| auto/S99990004-4.jpg | [maxmann on Pixabay](https://pixabay.com/photos/reussstein-castle-russias-stone-2779443/) | Pixabay License |
-| auto/S99990004-5.jpg | [Nemo_Jo on Pixabay](https://pixabay.com/photos/korea-republic-of-korea-seoul-3448689/) | Pixabay License |
-| auto/S99990004-6.jpg | [crinca on Pixabay](https://pixabay.com/photos/incheon-songdo-building-i-phone6-2197528/) | Pixabay License |

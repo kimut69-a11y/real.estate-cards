@@ -23,13 +23,11 @@
       {
        "type": "photo",
        "q": [
-        "korean apartment complex",
-        "busan apartments",
-        "seoul apartment buildings"
+        "id:5807690",
+        "seoul apartments"
        ],
        "label": "전주 아파트",
-       "emoji": "🏠",
-       "photo": "auto/S99991125-1"
+       "emoji": "🏠"
       },
       {
        "type": "char",
