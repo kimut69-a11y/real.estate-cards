@@ -2,7 +2,7 @@
  "date": "test",
  "posts": [
   {
-   "id": 99990002,
+   "id": 99990003,
    "type": "short",
    "title": "t",
    "caption": "test",
@@ -14,61 +14,55 @@
       {
        "type": "photo",
        "q": [
-        "서울 빌라 주택가",
-        "korean villa houses",
-        "seoul residential alley"
+        "seoul villa houses",
+        "서울 빌라",
+        "korea residential buildings"
        ],
-       "label": "0",
-       "photo": "auto/S99990002-1"
+       "label": "0"
       },
       {
        "type": "photo",
        "q": [
-        "한국 아파트 단지",
         "korean apartment complex",
-        "seoul apartment"
+        "한국 아파트",
+        "seoul apartment buildings"
        ],
-       "label": "1",
-       "photo": "auto/S99990002-2"
+       "label": "1"
       },
       {
        "type": "photo",
        "q": [
-        "부동산 계약서 도장",
-        "contract stamp korea",
-        "signing contract document"
+        "contract signing document",
+        "계약서",
+        "real estate contract"
        ],
-       "label": "2",
-       "photo": "auto/S99990002-3"
+       "label": "2"
       },
       {
        "type": "photo",
        "q": [
-        "대한민국 법원",
-        "korea court building",
-        "seoul court"
+        "court building",
+        "법원",
+        "courthouse"
        ],
-       "label": "3",
-       "photo": "auto/S99990002-4"
+       "label": "3"
       },
       {
        "type": "photo",
        "q": [
-        "판사 의사봉",
-        "judge gavel"
+        "judge gavel",
+        "의사봉"
        ],
-       "label": "4",
-       "photo": "auto/S99990002-5"
+       "label": "4"
       },
       {
        "type": "photo",
        "q": [
-        "서울 골목 주택",
-        "seoul old houses alley",
-        "korea houses rooftop"
+        "seoul residential street",
+        "서울 주택가",
+        "korea houses"
        ],
-       "label": "5",
-       "photo": "auto/S99990002-6"
+       "label": "5"
       }
      ]
     }

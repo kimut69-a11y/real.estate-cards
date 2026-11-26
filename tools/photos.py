@@ -47,37 +47,47 @@ def search(q, used):
     return None
 
 
-KOREAN_TAGS = ("korea", "korean", "seoul", "busan", "incheon", "jeju", "gyeongju", "daegu", "한국", "서울", "부산", "아파트")
+KOREAN_TAGS = ("korea", "korean", "seoul", "busan", "incheon", "daegu", "한국", "서울", "부산", "대한민국")
+# 부동산 이야기와 안 맞는 관광·전통 사진(궁궐·절 등)은 빼기
+BANNED_TAGS = ("palace", "temple", "hanok", "gyeongbokgung", "traditional", "hanbok", "lantern", "festival", "buddha",
+               "궁", "궁궐", "사찰", "한옥", "전통", "경복궁", "한복", "food", "restaurant", "bar", "cafe", "woman", "man", "girl", "boy", "people")
+STOP = {"korea", "korean", "seoul", "south", "the", "a", "of", "and", "in", "photo", "한국", "서울", "대한민국"}
 
 
-def _korean_score(h):
-    tags = h.get("tags", "").lower()
-    return sum(1 for t in KOREAN_TAGS if t in tags)
+def _words(q):
+    return [w for w in q.lower().replace(",", " ").split() if w not in STOP and len(w) > 1]
 
 
 def search_pixabay(q, used):
-    """q: 검색어 하나 또는 여러 개(리스트). 한글이 들어간 검색어는 lang=ko 로 찾는다.
-    한국 태그(korea·seoul·한국 등)가 붙은 사진을 우선 고르고, 없으면 첫 검색어의 첫 결과."""
+    """q: 검색어 하나 또는 여러 개(리스트). 한글 검색어는 lang=ko.
+    점수 = 검색어 단어가 태그에 있는 정도×2 + 한국 태그(korea·seoul·한국 등) + 세로 사진 가점.
+    궁궐·절·음식·사람 위주 사진은 뺀다. 검색어 단어가 태그에 하나도 없으면 고르지 않는다."""
     qs = q if isinstance(q, list) else [q]
-    best, first = None, None
+    best = None
     for one in qs:
         ko = any("\uac00" <= ch <= "\ud7a3" for ch in one)
-        u = "https://pixabay.com/api/?" + urllib.parse.urlencode(
-            {"key": os.environ["PIXABAY_API_KEY"], "q": one[:100], "image_type": "photo", "orientation": "vertical",
-             "min_height": 1200, "safesearch": "true", "per_page": 60, "lang": "ko" if ko else "en"})
-        for h in json.loads(get(u, auth=False)).get("hits", []):
-            if f"pixabay-{h['id']}" in used:
-                continue
-            sc = _korean_score(h)
-            if first is None:
-                first = h
-            if sc and (best is None or sc > best[0]):
-                best = (sc, h)
-        if best and best[0] >= 2:
-            break
-    h = best[1] if best else first
-    if not h:
+        words = _words(one)
+        for orient in ("vertical", "all"):
+            u = "https://pixabay.com/api/?" + urllib.parse.urlencode(
+                {"key": os.environ["PIXABAY_API_KEY"], "q": one[:100], "image_type": "photo", "orientation": orient,
+                 "min_height": 1000, "safesearch": "true", "per_page": 80, "lang": "ko" if ko else "en"})
+            for h in json.loads(get(u, auth=False)).get("hits", []):
+                if f"pixabay-{h['id']}" in used:
+                    continue
+                tags = [t.strip() for t in h.get("tags", "").lower().split(",")]
+                tagstr = " ".join(tags)
+                if any(b in tags or (len(b) > 3 and b in tagstr) for b in BANNED_TAGS):
+                    continue
+                rel = sum(1 for w in words if w in tagstr)
+                if words and rel == 0:
+                    continue
+                kor = sum(1 for t in KOREAN_TAGS if t in tagstr)
+                sc = rel * 2 + min(kor, 2) + (1 if h.get("imageHeight", 0) > h.get("imageWidth", 1) else 0)
+                if best is None or sc > best[0]:
+                    best = (sc, h)
+    if not best:
         return None
+    h = best[1]
     return {"id": f"pixabay-{h['id']}", "photographer": h.get("user", ""), "url": h.get("pageURL", ""),
             "img": h["largeImageURL"], "site": "Pixabay"}
 
