@@ -18,11 +18,8 @@
 | auto/S99991126-5.jpg | [PublicDomainPictures on Pixabay](https://pixabay.com/photos/vu-meter-analog-volume-level-sound-70433/) | Pixabay License |
 | auto/S99991126-6.jpg | [is463940 on Pixabay](https://pixabay.com/photos/pump-pumping-station-station-4784420/) | Pixabay License |
 | auto/S99991126-7.jpg | [Bru-nO on Pixabay](https://pixabay.com/photos/technology-heating-tube-industry-2069809/) | Pixabay License |
-| auto/S99991126-8.jpg | [12019 on Pixabay](https://pixabay.com/photos/door-doorway-plants-home-apartment-168772/) | Pixabay License |
 | auto/S99991126-9.jpg | [succo on Pixabay](https://pixabay.com/photos/hammer-books-law-dish-lawyer-620009/) | Pixabay License |
 | auto/S99991126-10.jpg | [Tumisu on Pixabay](https://pixabay.com/photos/contract-agreement-6951993/) | Pixabay License |
 | auto/S99991126-11.jpg | [Myhoby969 on Pixabay](https://pixabay.com/photos/gavel-judge-law-justice-8113195/) | Pixabay License |
-| auto/S99991126-12.jpg | [ArtisticOperations on Pixabay](https://pixabay.com/photos/residential-property-new-york-city-2858226/) | Pixabay License |
 | auto/S99991126-13.jpg | [congerdesign on Pixabay](https://pixabay.com/photos/house-key-apartment-property-4780574/) | Pixabay License |
 | auto/S99991126-14.jpg | [manseok_Kim on Pixabay](https://pixabay.com/photos/money-don-10000-won-1308823/) | Pixabay License |
-| auto/S99991126-15.jpg | [ThePictureBox on Pixabay](https://pixabay.com/photos/money-dollar-cash-currency-bills-1595730/) | Pixabay License |
