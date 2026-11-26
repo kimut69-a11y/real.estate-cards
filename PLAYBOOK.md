@@ -22,9 +22,9 @@
   - 쇼츠: action=`create_video_post` (video_url, cover_url, share_to_feed=true, caption). cover_url = `.../reels/S<YYYYMMDD>.jpg` (한글 제목 썸네일). jpg가 없을 때만 cover_url 대신 thumb_offset=1500
 - 파일 이름 (날짜 = 게시일, YYYYMMDD):
   - 뉴스 카드: `posts/daily/YYYY-MM-DD.json` 의 type=info, id=YYYYMMDD, prefix="N" → `cards/NYYYYMMDD-1~6.jpg`
-  - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4` + 썸네일 `reels/SYYYYMMDD.jpg` (shorts.py가 함께 만듦. **둘 다 commit**)
+  - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4` + 썸네일 `reels/SYYYYMMDD.jpg` (shorts.py가 함께 만듦. **둘 다 commit**, 받은 사진 `assets/photos/` 도 commit)
   - 썸네일: 무슨 이야기인지 한눈에 알게 한글 제목을 크게. 기본은 title을 첫 쉼표에서 나눠 '윗줄 + 노란 띠 질문'(예: "소음 숨기고 판 아파트, 계약 무를 수 있을까?"). 그래서 title은 '상황, 질문?' 꼴로 짧게. 필요하면 "cover": {"text", "q", "emoji"}로 직접 지정. 렌더 후 jpg를 직접 열어 글자가 잘리거나 넘치지 않는지 확인. 썸네일만 다시: `python3 tools/shorts.py --cover posts/daily/<날짜>.json`
-  - 실제 사진: `assets/photos/` 에 사진이 있으면 쇼츠 장면의 3~5개를 photo 장면으로(예: 집·아파트·계약·법원 장면). `ls assets/photos` 로 태그를 보고 그 태그만 씀. 사진이 없는 태그는 자동으로 이모지 장면이 되니 억지로 넣지 않음. 사진을 인터넷에서 새로 받아 넣지 않음(뉴스·방송 캡처 금지)
+  - 실제 사진: 쇼츠마다 장면 3~5개를 photo 장면으로(집·아파트·계약서·법원·공사장 등 사람이 주인공이 아닌 장면). Pexels에서 자동으로 받음(`tools/photos.py`, 3번 렌더링 참고). 뉴스·방송 캡처, 다른 계정 사진은 절대 쓰지 않음
   - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~8.jpg` (입지 페이지가 없으면 1~7)
 - 도구: `tools/cards.py`(카드), `tools/shorts.py`(쇼츠), `tools/setup_tts.sh`(음성 도구 설치, 매 실행 처음에 1회)
 
@@ -53,12 +53,14 @@
 - 판결 원문·기사에서 확인한 사실만 쓴다(증거, 쟁점, 법원이 인정한 사실 등으로 문장 수를 채움). 지어낸 디테일 금지
 - `say`(읽을 문장): 숫자는 한글로 풀어 씀(1,960만 → 천구백육십만). 어려운 한자어·약어는 쉬운 말로. 문장당 한글 45자 이내로 짧게
 - `sub`(자막): 숫자 표기 가능. `|`로 2~3개 덩어리, 덩어리당 15~20자
-- `scene`: **자막 덩어리 수만큼 장면을 리스트로** 넣어 1.5~2.5초마다 화면이 바뀌게 함(덩어리가 1개면 장면 1개). 같은 장면 종류가 3번 연속되지 않게. 종류: title, big(화면 꽉 찬 이모지+한 단어), emoji, char(face: normal/happy/shock/angry/sad/smug/think), vs, money, compare, court, end
+- `scene`: **자막 덩어리 수만큼 장면을 리스트로** 넣어 1.5~2.5초마다 화면이 바뀌게 함(덩어리가 1개면 장면 1개). 같은 장면 종류가 3번 연속되지 않게. 종류: title, big(화면 꽉 찬 이모지+한 단어), emoji, char(face: normal/happy/shock/angry/sad/smug/think), vs, money, compare, court, end, **photo(실제 사진)**
+- `photo` 장면: `{"type":"photo","q":"영어 검색어","label":"짧은 한글 라벨","emoji":"🏠"}`. 대본 전체에 3~5개, 연속 2개 이하. q는 구체적이고 사람 얼굴이 주인공이 아닌 것(예: `apartment complex exterior`, `signing contract paper`, `courthouse`, `water pump machine room`, `moving boxes`, `store interior`, `water leak ceiling`). 사진은 분위기 자료이므로 라벨은 사실(사건)만 쓰고 '실제 현장'처럼 보이게 쓰지 않음
 - `pop`: 문장 2개 중 1개꼴로 스티커 1~2개. 반전·충격 지점엔 밈 문구(`{"t":"실화냐?"}`, 헐, 소름, 킹받네, 빼박, 대박, 어이없네 — 2~4글자. ㄷㄷ·ㅋㅋ처럼 자음만 쓴 문구는 굵은 폰트에서 영문 CC처럼 보이므로 금지), 감정 지점엔 이모지(Microsoft Fluent 3D 이미지로 자동 변환, tools/emoji.py)(`{"e":"😱"}` 🤯 😤 😭 👀 💥 🚨 🙄 🤑). `at`(0~1)은 그 문장에서 해당 단어가 나오는 위치, `pos`는 자막·주요 그림을 가리지 않게 tl/tr 위주
 - 마지막 문장은 scene type=end (교훈 + "팔로우하면 매일 1분 판례")
 - voice는 보통 넣지 않음(기본: 여성 sid 0, 1.15배속 합성 + 재생 1.16배). 길이가 45초보다 짧으면 `"voice": {"tempo": 1.1}`
 - 효과음(장면 전환 '휙', 스티커 '뿅', 금액·제목 '쿵')은 자동으로 들어감
 ### 렌더링·검수
+0. `python3 tools/photos.py posts/daily/YYYY-MM-DD.json` → Pexels 사진을 `assets/photos/auto/`에 받고 JSON의 photo 장면·캡션 출처 줄(📷 Photos provided by Pexels · 사진: …)을 자동으로 채움. 'PHOTO … 받기 실패'가 나오면 그 장면은 이모지로 대체되니 그대로 진행하고 보고에 한 줄 적음(401=키 문제, 403=네트워크 허용 문제). 사진이 받아지면 장면 확인(3번)에서 사진이 내용과 어울리는지 보고, 어색하면 q를 바꿔 그 장면의 photo·credit을 지우고 다시 실행
 1. `python3 tools/shorts.py posts/daily/YYYY-MM-DD.json` → `reels/SYYYYMMDD.mp4`
 2. 출력의 `PRONUNCIATION` 경고: 그 문장의 `say`에서 잘못 들린 단어를 더 쉬운 말로 바꿔 다시 렌더링(최대 3번, 일치율 0.75 이상이고 뜻이 같게 들리면 통과). `OVERFLOW`는 글자·이모지 크기(size, esize)를 줄임. 종료 코드 0이어야 함
 3. 장면 확인: `ffmpeg -i reels/SYYYYMMDD.mp4 -vf "select='not(mod(n\,150))',scale=270:480,tile=6x2" -frames:v 1 /tmp/x.png` 후 Read로 보고 글자 잘림·겹침 확인

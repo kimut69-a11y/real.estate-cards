@@ -31,7 +31,8 @@
   court   {"text": "법원의 판단은?", "emoji": "⚖️"}
   end     {"text": "보복 소음은<br>더 큰 돈으로", "sub": "팔로우하면 매일 1분 판례"}
   big     {"emoji": "🤯", "text": "반전", "bg": "#FFD23F"}         화면 꽉 찬 이모지 + 한 단어
-  photo   {"photo": "apartment", "label": "전주 아파트", "emoji": "🏠"}  실제 사진 전체 화면 + 라벨
+  photo   {"q": "apartment building", "label": "전주 아파트", "emoji": "🏠"}  실제 사진 전체 화면 + 라벨
+          q(영어 검색어)를 넣고 먼저 python3 tools/photos.py 를 돌리면 Pexels 사진을 받아 "photo"를 채운다.
           사진은 assets/photos/<태그>*.jpg 에서 고름(같은 태그가 여러 장이면 게시물 id로 돌아가며 선택).
           그 태그 사진이 없으면 자동으로 emoji 장면(emoji·label)으로 바뀌므로 렌더링이 멈추지 않음.
           사용 가능한 태그: ls assets/photos  (저작권: 상업 이용 가능한 사진만, 출처는 assets/photos/LICENSES.md)
@@ -123,6 +124,9 @@ PHOTOS = os.path.join(ROOT, "assets", "photos")
 
 def find_photo(tag, seed=0):
     import glob
+    for e in (".jpg", ".jpeg", ".png"):
+        if os.path.exists(os.path.join(PHOTOS, tag + e)):
+            return os.path.join(PHOTOS, tag + e)
     fs = sorted(glob.glob(os.path.join(PHOTOS, f"{tag}*.jpg")) + glob.glob(os.path.join(PHOTOS, f"{tag}*.jpeg")) + glob.glob(os.path.join(PHOTOS, f"{tag}*.png")))
     return fs[seed % len(fs)] if fs else None
 
