@@ -19,3 +19,6 @@
 | auto/S20261126-9.jpg | [Tumisu on Pixabay](https://pixabay.com/photos/house-property-real-estate-mortgage-5902665/) | Pixabay License |
 | auto/S20261126-10.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/city-road-apartments-stairs-rise-7995884/) | Pixabay License |
 | auto/S20261126-12.jpg | [ds_30 on Pixabay](https://pixabay.com/photos/administrate-administrative-4847730/) | Pixabay License |
+| auto/S20261126-5.jpg | [godoycordoba on Pixabay](https://pixabay.com/photos/firm-contract-2003808/) | Pixabay License |
+| auto/S20261126-6.jpg | [qimono on Pixabay](https://pixabay.com/photos/gavel-auction-law-hammer-symbol-2492011/) | Pixabay License |
+| auto/S20261126-11.jpg | [silver_ms on Pixabay](https://pixabay.com/photos/street-road-daegu-korea-city-6509043/) | Pixabay License |

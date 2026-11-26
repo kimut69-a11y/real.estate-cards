@@ -147,7 +147,8 @@
         "contract signing document"
        ],
        "label": "계약할 때 받은 설명",
-       "emoji": "📝"
+       "emoji": "📝",
+       "photo": "auto/S20261126-5"
       },
       {
        "type": "char",
@@ -183,7 +184,8 @@
         "judge gavel"
        ],
        "label": "손해배상 소송",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261126-6"
       }
      ],
      "hl": [
@@ -394,7 +396,8 @@
         "seoul residential street"
        ],
        "label": "또 다른 사건",
-       "emoji": "🏨"
+       "emoji": "🏨",
+       "photo": "auto/S20261126-11"
       },
       {
        "type": "big",
