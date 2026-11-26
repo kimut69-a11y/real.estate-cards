@@ -10,3 +10,7 @@
 | auto/S99990001-1.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/skyscrapers-city-office-building-9596809/) | Pixabay License |
 | auto/S99990001-2.jpg | [congerdesign on Pixabay](https://pixabay.com/photos/garden-pump-water-pump-garden-3647220/) | Pixabay License |
 | auto/S99990001-3.jpg | [AbsolutVision on Pixabay](https://pixabay.com/photos/signature-contract-close-up-tool-2654081/) | Pixabay License |
+| auto/S20261126-1.jpg | [Pexels on Pixabay](https://pixabay.com/photos/apartment-architecture-building-2179337/) | Pixabay License |
+| auto/S20261126-2.jpg | [fotografierende on Pixabay](https://pixabay.com/photos/write-notebook-pen-hand-paper-4491416/) | Pixabay License |
+| auto/S20261126-3.jpg | [TillVoigt on Pixabay](https://pixabay.com/photos/district-court-erfurt-dish-building-3803190/) | Pixabay License |
+| auto/S20261126-4.jpg | [southerndaydreamer on Pixabay](https://pixabay.com/photos/driskill-hotel-austin-texas-207495/) | Pixabay License |
