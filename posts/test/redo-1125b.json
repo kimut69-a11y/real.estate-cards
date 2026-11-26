@@ -234,7 +234,8 @@
         "id:3448689",
         "seoul apartments"
        ],
-       "label": "원래 살던 집"
+       "label": "원래 살던 집",
+       "photo": "auto/S99991126-8"
       }
      ],
      "hl": [
@@ -390,7 +391,8 @@
         "seoul apartments night"
        ],
        "label": "살면서 들었을 소음",
-       "emoji": "👂"
+       "emoji": "👂",
+       "photo": "auto/S99991126-12"
       }
      ],
      "hl": [
@@ -479,7 +481,8 @@
         "영수증",
         "shopping receipt"
        ],
-       "label": "영수증이 부족"
+       "label": "영수증이 부족",
+       "photo": "auto/S99991126-15"
       }
      ],
      "hl": [
