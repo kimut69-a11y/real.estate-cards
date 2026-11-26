@@ -34,6 +34,12 @@
 스티커(pop): e=이모지 또는 t=밈 문구(헐/실화냐?/ㄹㅇ?/소름/킹받네/ㅋㅋㅋ 등 짧게), at=문장 안 위치(0~1),
   pos=tl|tr|bl|br|c, dur=초(기본 0.9). 통통 튀며 나타나고 '뿅' 효과음이 붙는다.
 장면이 바뀔 때마다 화면이 살짝 튀어 들어오고 '휙' 효과음, money/title/big 장면은 '쿵' 효과음.
+
+썸네일(커버): 영상과 함께 reels/S{id}.jpg 를 만든다. 무슨 이야기인지 한눈에 알 수 있게 한글 제목을 크게 넣는다.
+  기본: title 을 첫 쉼표에서 나눠 윗줄(흰 큰 글자) + 아랫줄(노란 띠 질문), 이모지는 첫 big/emoji 장면에서.
+  직접 지정(선택): "cover": {"text": "소음 숨기고 판<br>아파트", "q": "계약 무를 수 있을까?", "emoji": "🏠"}
+  제목 글자는 프로필 격자(3:4)에서 잘리지 않게 가운데(위·아래 240px 바깥은 비움)에만 둔다.
+  썸네일만 다시 만들기: python3 tools/shorts.py --cover posts/daily/<날짜>.json [id]
 """
 import json, os, re, subprocess, sys, shutil, html
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -158,6 +164,59 @@ def overlay_html():
     return f'''<div class="cv" style="background:transparent">
 <div style="position:absolute;left:60px;top:150px;background:{LIME};color:{INK};font-weight:900;font-size:46px;padding:14px 32px;border-radius:999px;border:5px solid {INK}">부동산 썰방</div>
 </div>'''
+
+
+def cover_parts(p):
+    c = p.get("cover") or {}
+    title = p.get("title", "")
+    if "," in title:
+        a, b = title.split(",", 1)
+    else:
+        a, b = title, ""
+    text, q = c.get("text", a.strip()), c.get("q", b.strip())
+    emo = c.get("emoji")
+    if not emo:
+        for ln in p.get("lines", []):
+            for sc in (ln["scene"] if isinstance(ln["scene"], list) else [ln["scene"]]):
+                if sc.get("type") in ("big", "emoji") and sc.get("emoji"):
+                    emo = sc["emoji"]; break
+            if emo:
+                break
+    return text, q, emo or "🏠"
+
+
+def cover_html(p):
+    text, q, emo = cover_parts(p)
+    qd = (f'<div id="q" class="h" style="background:{YEL};color:{INK};border:8px solid {INK};border-radius:28px;padding:18px 40px;'
+          f'font-size:110px;box-shadow:14px 14px 0 {INK};transform:rotate(-2deg);white-space:nowrap">{q}</div>') if q else ""
+    return f'''<div class="cv" style="background:{BLUE}">
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.18),transparent 60%)"></div>
+<div style="position:absolute;left:0;right:0;top:250px;display:flex;justify-content:center;gap:24px">
+ <div style="background:{LIME};color:{INK};font-weight:900;font-size:52px;padding:14px 36px;border-radius:999px;border:6px solid {INK}">부동산 썰방</div>
+ <div style="background:#fff;color:{INK};font-weight:900;font-size:52px;padding:14px 36px;border-radius:999px;border:6px solid {INK}">1분 판례</div></div>
+<div id="box" style="position:absolute;left:60px;right:60px;top:400px;height:1240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:56px;text-align:center">
+ <div>{emoji_html(emo, 300)}</div>
+ <div id="t" class="h" style="font-size:190px;color:#fff;-webkit-text-stroke:16px {INK};paint-order:stroke fill;line-height:1.12">{text}</div>
+ {qd}
+</div></div>'''
+
+
+def make_cover(p, pg):
+    n = int(p["id"])
+    tmp = f"/tmp/cover{n}"; os.makedirs(tmp, exist_ok=True)
+    f = f"{tmp}/cover.html"
+    open(f, "w").write('<!doctype html><html lang="ko"><head><meta charset="utf-8">' + CSS + '</head><body>' + cover_html(p) + '</body></html>')
+    pg.goto("file://" + f); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(200)
+    pg.evaluate("()=>{const b=document.getElementById('box'),t=document.getElementById('t'),q=document.getElementById('q');"
+                "let s=parseInt(getComputedStyle(t).fontSize);while(s>90&&(t.scrollWidth>b.clientWidth||b.scrollHeight>b.clientHeight)){s-=6;t.style.fontSize=s+'px'}"
+                "let k=q?parseInt(getComputedStyle(q).fontSize):0;while(q&&k>60&&(q.getBoundingClientRect().width>b.clientWidth||b.scrollHeight>b.clientHeight)){k-=4;q.style.fontSize=k+'px'}}")
+    over = pg.evaluate("(()=>{const b=document.getElementById('box');return b.scrollHeight-b.clientHeight})()")
+    png = f"{tmp}/cover.png"
+    pg.screenshot(path=png, clip={"x": 0, "y": 0, "width": W, "height": H})
+    out = os.path.join(ROOT, "reels", f"S{n}.jpg")
+    sh(["ffmpeg", "-y", "-loglevel", "error", "-i", png, "-q:v", "2", out])
+    print(f"cover {out} {os.path.getsize(out)//1024}KB")
+    return [f"COVER OVERFLOW S{n}"] if over > 4 else []
 
 
 def sticker_html(pp):
@@ -355,16 +414,21 @@ def build(p, pg):
         if s < 0.8:
             problems.append(f"PRONUNCIATION S{n} line {i} ({s:.2f}): '{ln['say']}' -> '{hrd}'")
     print(f"rendered {out} {total:.1f}s {os.path.getsize(out)//1024}KB")
+    problems += make_cover(p, pg)
     if total > 90:
         problems.append(f"TOO LONG S{n} {total:.1f}s (권장 45~60초)")
     return problems
 
 
 def main():
-    if not os.path.exists(f"{ST}/voice.bin"):
+    args = sys.argv[1:]
+    cover_only = bool(args) and args[0] == "--cover"
+    if cover_only:
+        args = args[1:]
+    elif not os.path.exists(f"{ST}/voice.bin"):
         sys.exit("음성 도구가 없습니다. 먼저 bash tools/setup_tts.sh 실행")
-    data = json.load(open(sys.argv[1]))
-    only = {int(x) for x in sys.argv[2:]}
+    data = json.load(open(args[0]))
+    only = {int(x) for x in args[1:]}
     from playwright.sync_api import sync_playwright
     problems = []
     with sync_playwright() as pw:
@@ -373,7 +437,7 @@ def main():
         for p in data["posts"]:
             if p.get("type") != "short" or (only and int(p["id"]) not in only):
                 continue
-            problems += build(p, pg)
+            problems += make_cover(p, pg) if cover_only else build(p, pg)
         br.close()
     for x in problems:
         print(x)

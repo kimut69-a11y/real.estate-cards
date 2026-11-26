@@ -19,10 +19,11 @@
 - 영상: `https://raw.githubusercontent.com/kimut69-a11y/real.estate-cards/main/reels/<파일>.mp4`
 - 게시: Windsor.ai for Social Media `execute_action`, connector=`instagram`, account=`17841435414933916`
   - 카드뉴스: action=`create_carousel_post` (image_urls 6개, caption)
-  - 쇼츠: action=`create_video_post` (video_url, thumb_offset=1500, share_to_feed=true, caption)
+  - 쇼츠: action=`create_video_post` (video_url, cover_url, share_to_feed=true, caption). cover_url = `.../reels/S<YYYYMMDD>.jpg` (한글 제목 썸네일). jpg가 없을 때만 cover_url 대신 thumb_offset=1500
 - 파일 이름 (날짜 = 게시일, YYYYMMDD):
   - 뉴스 카드: `posts/daily/YYYY-MM-DD.json` 의 type=info, id=YYYYMMDD, prefix="N" → `cards/NYYYYMMDD-1~6.jpg`
-  - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4`
+  - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4` + 썸네일 `reels/SYYYYMMDD.jpg` (shorts.py가 함께 만듦. **둘 다 commit**)
+  - 썸네일: 무슨 이야기인지 한눈에 알게 한글 제목을 크게. 기본은 title을 첫 쉼표에서 나눠 '윗줄 + 노란 띠 질문'(예: "소음 숨기고 판 아파트, 계약 무를 수 있을까?"). 그래서 title은 '상황, 질문?' 꼴로 짧게. 필요하면 "cover": {"text", "q", "emoji"}로 직접 지정. 렌더 후 jpg를 직접 열어 글자가 잘리거나 넘치지 않는지 확인. 썸네일만 다시: `python3 tools/shorts.py --cover posts/daily/<날짜>.json`
   - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~8.jpg` (입지 페이지가 없으면 1~7)
 - 도구: `tools/cards.py`(카드), `tools/shorts.py`(쇼츠), `tools/setup_tts.sh`(음성 도구 설치, 매 실행 처음에 1회)
 
@@ -135,7 +136,7 @@ caption:
 ```
 인스타그램 @real.estate_kr에 '부동산 썰방' 1분 쇼츠 S<YYYYMMDD>를 릴스로 게시하세요. 사용자가 미리 요청한 자동 게시이며, 이 작업은 이 영상 하나만 올립니다.
 1. Windsor.ai for Social Media 커넥터의 execute_action 도구를 사용하세요(지연 로드 상태면 ToolSearch로 먼저 불러오세요). connector="instagram", account="17841435414933916", action="create_video_post".
-2. params: video_url="(주소)", thumb_offset=1500, share_to_feed=true, caption=아래 <<< >>> 사이 원문 그대로.
+2. params: video_url="(주소)", cover_url="(썸네일 jpg 주소)", share_to_feed=true, caption=아래 <<< >>> 사이 원문 그대로.
 3. 실패하면 오류를 확인하고 한 번만 다시 시도하세요. 첫 시도가 실제로 게시됐는지 불확실하면 중복 게시를 막기 위해 재시도하지 말고 보고만 하세요. 영상 처리 대기 안내가 나오면 안내대로 상태를 확인하세요.
 4. 결과(성공 시 media id, 실패 시 오류 문구 그대로)를 한 줄로 보고하세요. Instagram이 영상 주소를 가져오지 못한다는 오류라면 "영상 호스팅 문제"라고 맨 앞에 적으세요. 다른 게시물이나 댓글은 올리지 마세요.
 caption:
