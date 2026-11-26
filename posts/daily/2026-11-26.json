@@ -22,10 +22,13 @@
      "scene": [
       {
        "type": "photo",
-       "q": "residential building exterior city",
+       "q": [
+        "seoul villa houses",
+        "서울 빌라",
+        "korea residential buildings"
+       ],
        "label": "다가구주택 임대차",
-       "emoji": "🏠",
-       "photo": "auto/S20261126-1"
+       "emoji": "🏠"
       },
       {
        "type": "money",
@@ -128,10 +131,12 @@
      "scene": [
       {
        "type": "photo",
-       "q": "signing contract paper desk",
+       "q": [
+        "contract signing document",
+        "real estate contract"
+       ],
        "label": "계약할 때 받은 설명",
-       "emoji": "📝",
-       "photo": "auto/S20261126-2"
+       "emoji": "📝"
       },
       {
        "type": "char",
@@ -162,10 +167,13 @@
       },
       {
        "type": "photo",
-       "q": "courthouse building",
+       "q": [
+        "judge gavel",
+        "의사봉",
+        "law gavel"
+       ],
        "label": "손해배상 소송",
-       "emoji": "⚖️",
-       "photo": "auto/S20261126-3"
+       "emoji": "⚖️"
       }
      ],
      "hl": [
@@ -357,10 +365,13 @@
      "scene": [
       {
        "type": "photo",
-       "q": "hotel building exterior",
+       "q": [
+        "seoul residential street",
+        "서울 주택가",
+        "korea houses"
+       ],
        "label": "또 다른 사건",
-       "emoji": "🏨",
-       "photo": "auto/S20261126-4"
+       "emoji": "🏨"
       },
       {
        "type": "big",
