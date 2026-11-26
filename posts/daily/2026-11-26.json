@@ -28,7 +28,8 @@
         "korea residential buildings"
        ],
        "label": "다가구주택 임대차",
-       "emoji": "🏠"
+       "emoji": "🏠",
+       "photo": "auto/S20261126-1"
       },
       {
        "type": "money",
@@ -136,7 +137,8 @@
         "real estate contract"
        ],
        "label": "계약할 때 받은 설명",
-       "emoji": "📝"
+       "emoji": "📝",
+       "photo": "auto/S20261126-2"
       },
       {
        "type": "char",
@@ -173,7 +175,8 @@
         "law gavel"
        ],
        "label": "손해배상 소송",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261126-3"
       }
      ],
      "hl": [
@@ -371,7 +374,8 @@
         "korea houses"
        ],
        "label": "또 다른 사건",
-       "emoji": "🏨"
+       "emoji": "🏨",
+       "photo": "auto/S20261126-4"
       },
       {
        "type": "big",
