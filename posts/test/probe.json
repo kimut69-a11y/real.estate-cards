@@ -18,7 +18,8 @@
         "서울 빌라",
         "korea residential buildings"
        ],
-       "label": "0"
+       "label": "0",
+       "photo": "auto/S99990003-1"
       },
       {
        "type": "photo",
@@ -27,7 +28,8 @@
         "한국 아파트",
         "seoul apartment buildings"
        ],
-       "label": "1"
+       "label": "1",
+       "photo": "auto/S99990003-2"
       },
       {
        "type": "photo",
@@ -36,7 +38,8 @@
         "계약서",
         "real estate contract"
        ],
-       "label": "2"
+       "label": "2",
+       "photo": "auto/S99990003-3"
       },
       {
        "type": "photo",
@@ -45,7 +48,8 @@
         "법원",
         "courthouse"
        ],
-       "label": "3"
+       "label": "3",
+       "photo": "auto/S99990003-4"
       },
       {
        "type": "photo",
@@ -53,7 +57,8 @@
         "judge gavel",
         "의사봉"
        ],
-       "label": "4"
+       "label": "4",
+       "photo": "auto/S99990003-5"
       },
       {
        "type": "photo",
@@ -62,7 +67,8 @@
         "서울 주택가",
         "korea houses"
        ],
-       "label": "5"
+       "label": "5",
+       "photo": "auto/S99990003-6"
       }
      ]
     }
