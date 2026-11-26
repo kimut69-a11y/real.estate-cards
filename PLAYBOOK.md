@@ -54,7 +54,7 @@
 - `say`(읽을 문장): 숫자는 한글로 풀어 씀(1,960만 → 천구백육십만). 어려운 한자어·약어는 쉬운 말로. 문장당 한글 45자 이내로 짧게
 - `sub`(자막): 숫자 표기 가능. `|`로 2~3개 덩어리, 덩어리당 15~20자
 - `scene`: **자막 덩어리 수만큼 장면을 리스트로** 넣어 1.5~2.5초마다 화면이 바뀌게 함(덩어리가 1개면 장면 1개). 같은 장면 종류가 3번 연속되지 않게. 종류: title, big(화면 꽉 찬 이모지+한 단어), emoji, char(face: normal/happy/shock/angry/sad/smug/think), vs, money, compare, court, end, **photo(실제 사진)**
-- `photo` 장면: `{"type":"photo","q":"영어 검색어","label":"짧은 한글 라벨","emoji":"🏠"}`. 대본 전체에 3~5개, 연속 2개 이하. q는 구체적이고 사람 얼굴이 주인공이 아닌 것(예: `apartment complex exterior`, `signing contract paper`, `courthouse`, `water pump machine room`, `moving boxes`, `store interior`, `water leak ceiling`). 사진은 분위기 자료이므로 라벨은 사실(사건)만 쓰고 '실제 현장'처럼 보이게 쓰지 않음
+- `photo` 장면: `{"type":"photo","q":"영어 검색어","label":"짧은 한글 라벨","emoji":"🏠"}`. 대본 전체에 3~5개, 연속 2개 이하. q는 구체적이고 사람 얼굴이 주인공이 아닌 것. 한국 아파트는 `korean apartment complex`·`seoul apartment buildings`처럼 'korean/seoul'을 붙이고(그냥 apartment는 외국 고층 빌딩이 나옴), 설비는 `boiler room pipes`·`industrial pump machinery`처럼 실내 기계실 느낌으로(그냥 water pump는 마당 손펌프가 나옴). 예: `signing contract paper`, `courthouse`, `judge gavel`, `moving boxes`, `store interior`, `water leak ceiling`. 사진은 분위기 자료이므로 라벨은 사실(사건)만 쓰고 '실제 현장'처럼 보이게 쓰지 않음
 - `pop`: 문장 2개 중 1개꼴로 스티커 1~2개. 반전·충격 지점엔 밈 문구(`{"t":"실화냐?"}`, 헐, 소름, 킹받네, 빼박, 대박, 어이없네 — 2~4글자. ㄷㄷ·ㅋㅋ처럼 자음만 쓴 문구는 굵은 폰트에서 영문 CC처럼 보이므로 금지), 감정 지점엔 이모지(Microsoft Fluent 3D 이미지로 자동 변환, tools/emoji.py)(`{"e":"😱"}` 🤯 😤 😭 👀 💥 🚨 🙄 🤑). `at`(0~1)은 그 문장에서 해당 단어가 나오는 위치, `pos`는 자막·주요 그림을 가리지 않게 tl/tr 위주
 - 마지막 문장은 scene type=end (교훈 + "팔로우하면 매일 1분 판례")
 - voice는 보통 넣지 않음(기본: 여성 sid 0, 1.15배속 합성 + 재생 1.16배). 길이가 45초보다 짧으면 `"voice": {"tempo": 1.1}`
