@@ -32,6 +32,7 @@
   end     {"text": "보복 소음은<br>더 큰 돈으로", "sub": "팔로우하면 매일 1분 판례"}
   big     {"emoji": "🤯", "text": "반전", "bg": "#FFD23F"}         화면 꽉 찬 이모지 + 한 단어
   photo   {"q": "apartment building", "label": "전주 아파트", "emoji": "🏠"}  실제 사진 전체 화면 + 라벨
+          사진 위에 어둡게 덮는 정도는 "dim"(기본 0.42, 0~1).
           q(영어 검색어)를 넣고 먼저 python3 tools/photos.py 를 돌리면 Pexels 사진을 받아 "photo"를 채운다.
           사진은 assets/photos/<태그>*.jpg 에서 고름(같은 태그가 여러 장이면 게시물 id로 돌아가며 선택).
           그 태그 사진이 없으면 자동으로 emoji 장면(emoji·label)으로 바뀌므로 렌더링이 멈추지 않음.
@@ -144,7 +145,8 @@ def scene_html(sc, seed=0):
             pos = sc.get("pos", "center")
             return (f'<div class="cv" style="background:#000">'
                     f'<div style="position:absolute;inset:0;background:url(\'file://{f}\') {pos}/cover no-repeat"></div>'
-                    f'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 55%,rgba(0,0,0,.75) 100%)"></div>'
+                    f'<div style="position:absolute;inset:0;background:rgba(0,0,0,{sc.get("dim", 0.42)})"></div>'
+                    f'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 25%,rgba(0,0,0,0) 50%,rgba(0,0,0,.8) 100%)"></div>'
                     f'{em}<div style="position:absolute;left:0;right:0;top:1150px;text-align:center">{lab}</div></div>')
     bg = sc.get("bg") or {"title": "#111", "money": "#14213D", "court": "#2B2D42", "end": INK, "compare": "#1D3557", "big": "#FFD23F"}.get(t, "#F4E9D8")
     dark = bg.lower() in ("#111", "#111111", "#14213d", "#2b2d42", "#1d3557", "#000", "#222") or sc.get("dark")
