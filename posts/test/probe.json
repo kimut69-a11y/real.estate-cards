@@ -18,7 +18,8 @@
         "korean villa houses",
         "seoul residential alley"
        ],
-       "label": "0"
+       "label": "0",
+       "photo": "auto/S99990002-1"
       },
       {
        "type": "photo",
@@ -27,7 +28,8 @@
         "korean apartment complex",
         "seoul apartment"
        ],
-       "label": "1"
+       "label": "1",
+       "photo": "auto/S99990002-2"
       },
       {
        "type": "photo",
@@ -36,7 +38,8 @@
         "contract stamp korea",
         "signing contract document"
        ],
-       "label": "2"
+       "label": "2",
+       "photo": "auto/S99990002-3"
       },
       {
        "type": "photo",
@@ -45,7 +48,8 @@
         "korea court building",
         "seoul court"
        ],
-       "label": "3"
+       "label": "3",
+       "photo": "auto/S99990002-4"
       },
       {
        "type": "photo",
@@ -53,7 +57,8 @@
         "판사 의사봉",
         "judge gavel"
        ],
-       "label": "4"
+       "label": "4",
+       "photo": "auto/S99990002-5"
       },
       {
        "type": "photo",
@@ -62,7 +67,8 @@
         "seoul old houses alley",
         "korea houses rooftop"
        ],
-       "label": "5"
+       "label": "5",
+       "photo": "auto/S99990002-6"
       }
      ]
     }
