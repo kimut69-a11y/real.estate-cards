@@ -31,6 +31,10 @@
   court   {"text": "법원의 판단은?", "emoji": "⚖️"}
   end     {"text": "보복 소음은<br>더 큰 돈으로", "sub": "팔로우하면 매일 1분 판례"}
   big     {"emoji": "🤯", "text": "반전", "bg": "#FFD23F"}         화면 꽉 찬 이모지 + 한 단어
+  photo   {"photo": "apartment", "label": "전주 아파트", "emoji": "🏠"}  실제 사진 전체 화면 + 라벨
+          사진은 assets/photos/<태그>*.jpg 에서 고름(같은 태그가 여러 장이면 게시물 id로 돌아가며 선택).
+          그 태그 사진이 없으면 자동으로 emoji 장면(emoji·label)으로 바뀌므로 렌더링이 멈추지 않음.
+          사용 가능한 태그: ls assets/photos  (저작권: 상업 이용 가능한 사진만, 출처는 assets/photos/LICENSES.md)
 스티커(pop): e=이모지 또는 t=밈 문구(헐/실화냐?/ㄹㅇ?/소름/킹받네/ㅋㅋㅋ 등 짧게), at=문장 안 위치(0~1),
   pos=tl|tr|bl|br|c, dur=초(기본 0.9). 통통 튀며 나타나고 '뿅' 효과음이 붙는다.
 장면이 바뀔 때마다 화면이 살짝 튀어 들어오고 '휙' 효과음, money/title/big 장면은 '쿵' 효과음.
@@ -114,8 +118,30 @@ def esc(s):
     return s  # 작성자가 넣는 HTML(<br>, <b>) 허용
 
 
-def scene_html(sc):
+PHOTOS = os.path.join(ROOT, "assets", "photos")
+
+
+def find_photo(tag, seed=0):
+    import glob
+    fs = sorted(glob.glob(os.path.join(PHOTOS, f"{tag}*.jpg")) + glob.glob(os.path.join(PHOTOS, f"{tag}*.jpeg")) + glob.glob(os.path.join(PHOTOS, f"{tag}*.png")))
+    return fs[seed % len(fs)] if fs else None
+
+
+def scene_html(sc, seed=0):
     t = sc.get("type", "emoji")
+    if t == "photo":
+        f = find_photo(sc.get("photo", ""), seed)
+        if not f:
+            sc = {"type": "emoji", "emoji": sc.get("emoji", "🏠"), "label": sc.get("label"), "bg": sc.get("bg")}
+            t = "emoji"
+        else:
+            lab = f'<div class="pill" style="font-size:60px">{esc(sc["label"])}</div>' if sc.get("label") else ""
+            em = f'<div style="position:absolute;right:70px;top:330px">{emoji_html(sc["emoji"], 170)}</div>' if sc.get("emoji") else ""
+            pos = sc.get("pos", "center")
+            return (f'<div class="cv" style="background:#000">'
+                    f'<div style="position:absolute;inset:0;background:url(\'file://{f}\') {pos}/cover no-repeat"></div>'
+                    f'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 55%,rgba(0,0,0,.75) 100%)"></div>'
+                    f'{em}<div style="position:absolute;left:0;right:0;top:1150px;text-align:center">{lab}</div></div>')
     bg = sc.get("bg") or {"title": "#111", "money": "#14213D", "court": "#2B2D42", "end": INK, "compare": "#1D3557", "big": "#FFD23F"}.get(t, "#F4E9D8")
     dark = bg.lower() in ("#111", "#111111", "#14213d", "#2b2d42", "#1d3557", "#000", "#222") or sc.get("dark")
     fg = "#fff" if dark else "#111"
@@ -361,7 +387,7 @@ def build(p, pg):
         for k, (sc, a0, a1, js) in enumerate(segs):
             seg_d = max(a1 - a0, 1.0 / FPS)
             img = f"{tmp}/s{i:02d}_{k}.png"
-            if shot(scene_html(sc), img) > 4:
+            if shot(scene_html(sc, n + i + k), img) > 4:
                 problems.append(f"SCENE OVERFLOW S{n} line {i}")
             frames = max(1, int(round(seg_d * FPS)))
             zdir = "1.0+0.04*(on-5)/%d" % frames if (i + k) % 2 == 0 else "1.04-0.04*(on-5)/%d" % frames

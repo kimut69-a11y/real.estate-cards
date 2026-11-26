@@ -24,6 +24,7 @@
   - 뉴스 카드: `posts/daily/YYYY-MM-DD.json` 의 type=info, id=YYYYMMDD, prefix="N" → `cards/NYYYYMMDD-1~6.jpg`
   - 쇼츠: 같은 파일의 type=short, id=YYYYMMDD → `reels/SYYYYMMDD.mp4` + 썸네일 `reels/SYYYYMMDD.jpg` (shorts.py가 함께 만듦. **둘 다 commit**)
   - 썸네일: 무슨 이야기인지 한눈에 알게 한글 제목을 크게. 기본은 title을 첫 쉼표에서 나눠 '윗줄 + 노란 띠 질문'(예: "소음 숨기고 판 아파트, 계약 무를 수 있을까?"). 그래서 title은 '상황, 질문?' 꼴로 짧게. 필요하면 "cover": {"text", "q", "emoji"}로 직접 지정. 렌더 후 jpg를 직접 열어 글자가 잘리거나 넘치지 않는지 확인. 썸네일만 다시: `python3 tools/shorts.py --cover posts/daily/<날짜>.json`
+  - 실제 사진: `assets/photos/` 에 사진이 있으면 쇼츠 장면의 3~5개를 photo 장면으로(예: 집·아파트·계약·법원 장면). `ls assets/photos` 로 태그를 보고 그 태그만 씀. 사진이 없는 태그는 자동으로 이모지 장면이 되니 억지로 넣지 않음. 사진을 인터넷에서 새로 받아 넣지 않음(뉴스·방송 캡처 금지)
   - 경매 카드: `posts/auction/YYYY-MM-DD.json` 의 type=auction, id=YYYYMMDD, prefix="A" → `cards/AYYYYMMDD-1~8.jpg` (입지 페이지가 없으면 1~7)
 - 도구: `tools/cards.py`(카드), `tools/shorts.py`(쇼츠), `tools/setup_tts.sh`(음성 도구 설치, 매 실행 처음에 1회)
 
