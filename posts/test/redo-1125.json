@@ -28,7 +28,8 @@
         "seoul apartment buildings"
        ],
        "label": "전주 아파트",
-       "emoji": "🏠"
+       "emoji": "🏠",
+       "photo": "auto/S99991125-1"
       },
       {
        "type": "char",
@@ -108,7 +109,8 @@
         "apartment interior living room",
         "empty living room"
        ],
-       "label": "집 전체에 소음"
+       "label": "집 전체에 소음",
+       "photo": "auto/S99991125-2"
       },
       {
        "type": "char",
@@ -167,7 +169,8 @@
         "industrial pump machinery",
         "pump room pipes"
        ],
-       "label": "지하 기계실"
+       "label": "지하 기계실",
+       "photo": "auto/S99991125-3"
       }
      ],
      "hl": [
@@ -274,7 +277,8 @@
         "real estate contract"
        ],
        "label": "계약 해제 청구",
-       "emoji": "📜"
+       "emoji": "📜",
+       "photo": "auto/S99991125-4"
       }
      ],
      "hl": [
@@ -327,7 +331,8 @@
         "law gavel"
        ],
        "label": "산 사람 승",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S99991125-5"
       },
       {
        "type": "big",
