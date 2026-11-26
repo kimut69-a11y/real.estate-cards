@@ -52,10 +52,13 @@
        "bg": "#FF8FAB"
       },
       {
-       "type": "char",
-       "face": "shock",
-       "say": "내 보증금은?",
-       "bg": "#FFF1C9"
+       "type": "photo",
+       "q": [
+        "seoul residential street",
+        "서울 주택가"
+       ],
+       "label": "집이 경매로",
+       "emoji": "🔨"
       }
      ],
      "hl": [
@@ -74,10 +77,13 @@
      "sub": "세입자가 받은 배당금|0원",
      "scene": [
       {
-       "type": "char",
-       "face": "sad",
-       "label": "세입자",
-       "bg": "#E3E7EE"
+       "type": "photo",
+       "q": [
+        "korean won",
+        "korean money"
+       ],
+       "label": "세입자 배당금",
+       "emoji": "💸"
       },
       {
        "type": "title",
@@ -107,10 +113,12 @@
        "bg": "#FFB347"
       },
       {
-       "type": "emoji",
-       "emoji": "📄❓",
-       "label": "계약 때 들은 설명",
-       "bg": "#DCEBFF"
+       "type": "photo",
+       "q": [
+        "legal documents",
+        "paper documents"
+       ],
+       "label": "계약 때 들은 설명"
       }
      ],
      "hl": [
@@ -195,10 +203,13 @@
      "sub": "1심|중개사 책임 40%",
      "scene": [
       {
-       "type": "big",
-       "emoji": "1️⃣",
-       "text": "1심",
-       "bg": "#CFE3FF"
+       "type": "photo",
+       "q": [
+        "law books",
+        "legal documents"
+       ],
+       "label": "1심",
+       "emoji": "📚"
       },
       {
        "type": "title",
@@ -288,10 +299,12 @@
      "sub": "배상액|1억 800만 원으로",
      "scene": [
       {
-       "type": "char",
-       "face": "happy",
-       "label": "세입자",
-       "bg": "#E8F5E9"
+       "type": "photo",
+       "q": [
+        "house keys",
+        "door key"
+       ],
+       "label": "세입자"
       },
       {
        "type": "money",
@@ -322,10 +335,13 @@
        "bg": "#FFC6C6"
       },
       {
-       "type": "emoji",
-       "emoji": "🗣️❌",
+       "type": "photo",
+       "q": [
+        "real estate contract",
+        "contract signing document"
+       ],
        "label": "틀린 설명",
-       "bg": "#FFE7A3"
+       "emoji": "❌"
       }
      ],
      "hl": [
@@ -345,10 +361,12 @@
      "sub": "그 잘못 때문에|세입자 손해 인정",
      "scene": [
       {
-       "type": "char",
-       "face": "normal",
-       "label": "세입자",
-       "bg": "#DCEBFF"
+       "type": "photo",
+       "q": [
+        "seoul apartments",
+        "아파트 단지"
+       ],
+       "label": "세입자 손해"
       },
       {
        "type": "emoji",
@@ -400,10 +418,13 @@
      "sub": "위조된 동의서를|확인 없이 건넨 중개사",
      "scene": [
       {
-       "type": "emoji",
-       "emoji": "📄🖋️❌",
+       "type": "photo",
+       "q": [
+        "stamp document",
+        "signature document"
+       ],
        "label": "위조된 동의서",
-       "bg": "#FFC6C6"
+       "emoji": "✍️"
       },
       {
        "type": "char",
