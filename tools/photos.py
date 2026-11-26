@@ -50,7 +50,7 @@ def search(q, used):
 KOREAN_TAGS = ("korea", "korean", "seoul", "busan", "incheon", "daegu", "한국", "서울", "부산", "대한민국")
 # 부동산 이야기와 안 맞는 관광·전통 사진(궁궐·절 등)은 빼기
 BANNED_TAGS = ("palace", "temple", "hanok", "gyeongbokgung", "traditional", "hanbok", "lantern", "festival", "buddha",
-               "궁", "궁궐", "사찰", "한옥", "전통", "경복궁", "한복", "food", "restaurant", "bar", "cafe", "woman", "man", "girl", "boy", "people")
+               "궁", "궁궐", "사찰", "한옥", "전통", "경복궁", "한복", "food", "restaurant", "bar", "cafe", "woman", "man", "girl", "boy", "people", "person", "couple", "family", "child", "businessman", "stress", "portrait")
 STOP = {"korea", "korean", "seoul", "south", "the", "a", "of", "and", "in", "photo", "한국", "서울", "대한민국"}
 
 

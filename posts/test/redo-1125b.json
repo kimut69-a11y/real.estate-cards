@@ -475,14 +475,10 @@
        "bg": "#E3E7EE"
       },
       {
-       "type": "photo",
-       "q": [
-        "receipt",
-        "영수증",
-        "shopping receipt"
-       ],
+       "type": "emoji",
+       "emoji": "🧾❌",
        "label": "영수증이 부족",
-       "photo": "auto/S99991126-15"
+       "bg": "#FFE0E0"
       }
      ],
      "hl": [

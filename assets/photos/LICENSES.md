@@ -25,4 +25,3 @@
 | auto/S99991126-14.jpg | [manseok_Kim on Pixabay](https://pixabay.com/photos/money-don-10000-won-1308823/) | Pixabay License |
 | auto/S99991126-8.jpg | [Nemo_Jo on Pixabay](https://pixabay.com/photos/korea-republic-of-korea-seoul-3448689/) | Pixabay License |
 | auto/S99991126-12.jpg | [hyungname on Pixabay](https://pixabay.com/photos/south-korea-daegu-sunset-nightview-3616701/) | Pixabay License |
-| auto/S99991126-15.jpg | [martineidhammer on Pixabay](https://pixabay.com/photos/bill-stress-financial-stress-10092714/) | Pixabay License |
