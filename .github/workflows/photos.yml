@@ -1,0 +1,50 @@
+name: shorts-photos
+# 쇼츠 대본(posts/daily/*.json)이 push되면 photo 장면에 들어갈 사진을 Pixabay에서 받아 저장소에 넣는다.
+# 키는 저장소 Settings > Secrets and variables > Actions 의 PIXABAY_API_KEY.
+on:
+  push:
+    branches: [main]
+    paths: ["posts/daily/*.json"]
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "posts/daily/YYYY-MM-DD.json (비우면 오늘, Asia/Seoul)"
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: shorts-photos
+  cancel-in-progress: false
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow
+      - name: Fetch photos
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+        run: |
+          if [ -z "$PIXABAY_API_KEY" ]; then echo "PIXABAY_API_KEY secret 없음"; fi
+          if [ -n "${{ github.event.inputs.file }}" ]; then
+            files="${{ github.event.inputs.file }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            files=$(git diff --name-only HEAD~1 HEAD -- 'posts/daily/*.json' || true)
+          fi
+          [ -z "$files" ] && files="posts/daily/$(TZ=Asia/Seoul date +%F).json"
+          for f in $files; do
+            [ -f "$f" ] && python3 tools/photos.py "$f" --status
+          done
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A assets/photos posts/daily
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "사진 자동 수집 (Pixabay)"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin main && break; sleep 5; done

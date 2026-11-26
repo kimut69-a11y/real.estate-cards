@@ -60,7 +60,11 @@
 - voice는 보통 넣지 않음(기본: 여성 sid 0, 1.15배속 합성 + 재생 1.16배). 길이가 45초보다 짧으면 `"voice": {"tempo": 1.1}`
 - 효과음(장면 전환 '휙', 스티커 '뿅', 금액·제목 '쿵')은 자동으로 들어감
 ### 렌더링·검수
-0. `python3 tools/photos.py posts/daily/YYYY-MM-DD.json` → 사진을 `assets/photos/auto/`에 받고 JSON의 photo 장면을 채움(Pexels로 받은 경우에만 캡션 출처 줄 📷 Photos provided by Pexels · 사진: … 자동 추가, Pixabay는 출처 표기 의무 없음). 'PHOTO … 받기 실패'가 나오면 그 장면은 이모지로 대체되니 그대로 진행하고 보고에 한 줄 적음(401=키 문제, 403=네트워크 허용 문제). 사진이 받아지면 장면 확인(3번)에서 사진이 내용과 어울리는지 보고, 어색하면 q를 바꿔 그 장면의 photo·credit을 지우고 다시 실행
+0. 실제 사진(GitHub이 자동으로 받음 — 클라우드 작업 환경은 pixabay.com 접속이 막혀 있으므로 photos.py를 직접 돌리지 않음):
+   대본(photo 장면에 q 포함)과 caption을 다 쓴 JSON을 `git rm -q --ignore-unmatch assets/photos/status/SYYYYMMDD.txt` 와 함께 commit → `git pull --rebase` → push
+   → GitHub Actions(shorts-photos)가 Pixabay 사진을 `assets/photos/auto/`에 받고 JSON의 photo 장면을 채워 다시 push함
+   → `bash tools/wait_photos.sh YYYYMMDD` 로 기다림(최대 7분). `OK`면 사진 완료. `PHOTO … 실패`나 `TIMEOUT`이면 그 장면은 이모지로 대체되니 그대로 진행하고 보고에 한 줄 적음
+   → 장면 확인(3번)에서 사진이 내용과 어울리는지 보고, 어색하면 그 장면의 q를 바꾸고 photo·credit을 지운 뒤 위 과정을 한 번 더(최대 1번)
 1. `python3 tools/shorts.py posts/daily/YYYY-MM-DD.json` → `reels/SYYYYMMDD.mp4`
 2. 출력의 `PRONUNCIATION` 경고: 그 문장의 `say`에서 잘못 들린 단어를 더 쉬운 말로 바꿔 다시 렌더링(최대 3번, 일치율 0.75 이상이고 뜻이 같게 들리면 통과). `OVERFLOW`는 글자·이모지 크기(size, esize)를 줄임. 종료 코드 0이어야 함
 3. 장면 확인: `ffmpeg -i reels/SYYYYMMDD.mp4 -vf "select='not(mod(n\,150))',scale=270:480,tile=6x2" -frames:v 1 /tmp/x.png` 후 Read로 보고 글자 잘림·겹침 확인
