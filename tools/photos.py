@@ -47,21 +47,43 @@ def search(q, used):
     return None
 
 
+KOREAN_TAGS = ("korea", "korean", "seoul", "busan", "incheon", "jeju", "gyeongju", "daegu", "한국", "서울", "부산", "아파트")
+
+
+def _korean_score(h):
+    tags = h.get("tags", "").lower()
+    return sum(1 for t in KOREAN_TAGS if t in tags)
+
+
 def search_pixabay(q, used):
-    for page in (1, 2):
+    """q: 검색어 하나 또는 여러 개(리스트). 한글이 들어간 검색어는 lang=ko 로 찾는다.
+    한국 태그(korea·seoul·한국 등)가 붙은 사진을 우선 고르고, 없으면 첫 검색어의 첫 결과."""
+    qs = q if isinstance(q, list) else [q]
+    best, first = None, None
+    for one in qs:
+        ko = any("\uac00" <= ch <= "\ud7a3" for ch in one)
         u = "https://pixabay.com/api/?" + urllib.parse.urlencode(
-            {"key": os.environ["PIXABAY_API_KEY"], "q": q[:100], "image_type": "photo", "orientation": "vertical",
-             "min_height": 1200, "safesearch": "true", "per_page": 50, "page": page})
-        data = json.loads(get(u, auth=False))
-        for h in data.get("hits", []):
-            if f"pixabay-{h['id']}" not in used:
-                return {"id": f"pixabay-{h['id']}", "photographer": h.get("user", ""), "url": h.get("pageURL", ""),
-                        "img": h["largeImageURL"], "site": "Pixabay"}
-    return None
+            {"key": os.environ["PIXABAY_API_KEY"], "q": one[:100], "image_type": "photo", "orientation": "vertical",
+             "min_height": 1200, "safesearch": "true", "per_page": 60, "lang": "ko" if ko else "en"})
+        for h in json.loads(get(u, auth=False)).get("hits", []):
+            if f"pixabay-{h['id']}" in used:
+                continue
+            sc = _korean_score(h)
+            if first is None:
+                first = h
+            if sc and (best is None or sc > best[0]):
+                best = (sc, h)
+        if best and best[0] >= 2:
+            break
+    h = best[1] if best else first
+    if not h:
+        return None
+    return {"id": f"pixabay-{h['id']}", "photographer": h.get("user", ""), "url": h.get("pageURL", ""),
+            "img": h["largeImageURL"], "site": "Pixabay"}
 
 
 def search_pexels(q, used):
-    ph = search(q, used)
+    ph = search(q[0] if isinstance(q, list) else q, used)
     if not ph:
         return None
     return {"id": str(ph["id"]), "photographer": ph.get("photographer", ""), "url": ph.get("url", ""),
