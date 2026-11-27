@@ -75,7 +75,8 @@
         "real estate contract"
        ],
        "label": "땅·건물 매매계약",
-       "emoji": "📝"
+       "emoji": "📝",
+       "photo": "auto/S20261127-1"
       }
      ],
      "hl": [
@@ -93,7 +94,8 @@
         "korean money"
        ],
        "label": "계약금 미지급",
-       "emoji": "💸"
+       "emoji": "💸",
+       "photo": "auto/S20261127-2"
       },
       {
        "type": "big",
@@ -125,7 +127,8 @@
         "law books"
        ],
        "label": "법원 경매 진행",
-       "emoji": "🔨"
+       "emoji": "🔨",
+       "photo": "auto/S20261127-3"
       },
       {
        "type": "big",
@@ -155,7 +158,8 @@
         "legal documents"
        ],
        "label": "유치권 신고",
-       "emoji": "📄"
+       "emoji": "📄",
+       "photo": "auto/S20261127-4"
       }
      ],
      "hl": [
@@ -180,7 +184,8 @@
         "korean money"
        ],
        "label": "신고한 공사대금",
-       "emoji": "💰"
+       "emoji": "💰",
+       "photo": "auto/S20261127-5"
       },
       {
        "type": "money",
@@ -217,7 +222,8 @@
         "door key"
        ],
        "label": "건물을 붙잡는 권리",
-       "emoji": "🔑"
+       "emoji": "🔑",
+       "photo": "auto/S20261127-6"
       }
      ],
      "hl": [
@@ -241,7 +247,8 @@
         "korea residential buildings"
        ],
        "label": "낙찰자 부담",
-       "emoji": "💸"
+       "emoji": "💸",
+       "photo": "auto/S20261127-7"
       }
      ],
      "hl": [
@@ -265,7 +272,8 @@
         "boiler room pipes"
        ],
        "label": "대표의 주장",
-       "emoji": "🏢"
+       "emoji": "🏢",
+       "photo": "auto/S20261127-8"
       },
       {
        "type": "emoji",
@@ -294,7 +302,8 @@
         "law books"
        ],
        "label": "경매방해 혐의",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261127-9"
       }
      ],
      "hl": [
@@ -326,7 +335,8 @@
         "korean money"
        ],
        "label": "낙찰가 영향 없다?",
-       "emoji": "📉"
+       "emoji": "📉",
+       "photo": "auto/S20261127-10"
       }
      ],
      "hl": [
@@ -382,7 +392,8 @@
         "law gavel"
        ],
        "label": "1심~대법원 유죄",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261127-11"
       }
      ],
      "hl": [
@@ -408,7 +419,8 @@
         "공사장"
        ],
        "label": "실제 공사 없음",
-       "emoji": "🚧"
+       "emoji": "🚧",
+       "photo": "auto/S20261127-12"
       },
       {
        "type": "big",
@@ -438,7 +450,8 @@
         "door key"
        ],
        "label": "점유 증거 없음",
-       "emoji": "❓"
+       "emoji": "❓",
+       "photo": "auto/S20261127-13"
       }
      ],
      "hl": [
@@ -465,7 +478,8 @@
         "law gavel"
        ],
        "label": "위험만으로 성립",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261127-14"
       },
       {
        "type": "big",

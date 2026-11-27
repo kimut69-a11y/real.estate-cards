@@ -22,3 +22,17 @@
 | auto/S20261126-5.jpg | [godoycordoba on Pixabay](https://pixabay.com/photos/firm-contract-2003808/) | Pixabay License |
 | auto/S20261126-6.jpg | [qimono on Pixabay](https://pixabay.com/photos/gavel-auction-law-hammer-symbol-2492011/) | Pixabay License |
 | auto/S20261126-11.jpg | [silver_ms on Pixabay](https://pixabay.com/photos/street-road-daegu-korea-city-6509043/) | Pixabay License |
+| auto/S20261127-1.jpg | [Tumisu on Pixabay](https://pixabay.com/photos/contract-agreement-6951993/) | Pixabay License |
+| auto/S20261127-2.jpg | [ldensity67 on Pixabay](https://pixabay.com/photos/money-mad-money-korean-money-won-5533707/) | Pixabay License |
+| auto/S20261127-3.jpg | [felix_w on Pixabay](https://pixabay.com/photos/a-book-paper-document-poetry-side-3101151/) | Pixabay License |
+| auto/S20261127-4.jpg | [Pexels on Pixabay](https://pixabay.com/photos/desk-ink-feather-quill-pen-1869579/) | Pixabay License |
+| auto/S20261127-5.jpg | [manseok_Kim on Pixabay](https://pixabay.com/photos/money-don-5000-won-1308822/) | Pixabay License |
+| auto/S20261127-6.jpg | [Maaark on Pixabay](https://pixabay.com/photos/keys-grass-nature-ground-beauty-1683101/) | Pixabay License |
+| auto/S20261127-7.jpg | [nabu88 on Pixabay](https://pixabay.com/photos/busan-building-building-apartments-4511204/) | Pixabay License |
+| auto/S20261127-8.jpg | [Bru-nO on Pixabay](https://pixabay.com/photos/technology-heating-tube-industry-2069809/) | Pixabay License |
+| auto/S20261127-9.jpg | [succo on Pixabay](https://pixabay.com/photos/hammer-books-law-dish-lawyer-620011/) | Pixabay License |
+| auto/S20261127-10.jpg | [HeungSoon on Pixabay](https://pixabay.com/photos/don-coin-cash-money-korean-money-2861168/) | Pixabay License |
+| auto/S20261127-11.jpg | [Myhoby969 on Pixabay](https://pixabay.com/photos/gavel-judge-law-justice-8113195/) | Pixabay License |
+| auto/S20261127-12.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/load-cranes-construction-site-9599974/) | Pixabay License |
+| auto/S20261127-13.jpg | [djacoby on Pixabay](https://pixabay.com/photos/key-west-house-key-west-tropics-142528/) | Pixabay License |
+| auto/S20261127-14.jpg | [sergeitokmakov on Pixabay](https://pixabay.com/photos/gavel-justice-judge-courtroom-7499921/) | Pixabay License |
