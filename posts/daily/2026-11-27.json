@@ -191,7 +191,8 @@
        "type": "money",
        "label": "주장한 공사대금",
        "amount": "2억 6,000만 원",
-       "emoji": "🏗️"
+       "emoji": "🏗️",
+       "size": 135
       }
      ],
      "hl": [
@@ -200,7 +201,7 @@
      "pop": [
       {
        "e": "😱",
-       "at": 0.8,
+       "at": 0.3,
        "pos": "tr"
       }
      ]
@@ -241,14 +242,10 @@
        "bg": "#FFF1C9"
       },
       {
-       "type": "photo",
-       "q": [
-        "seoul villa houses",
-        "korea residential buildings"
-       ],
-       "label": "낙찰자 부담",
-       "emoji": "💸",
-       "photo": "auto/S20261127-7"
+       "type": "emoji",
+       "emoji": "🏢💸",
+       "label": "낙찰자가 떠안을 수도",
+       "bg": "#FFE0E0"
       }
      ],
      "hl": [
@@ -351,8 +348,8 @@
      ]
     },
     {
-     "say": "과연 법원은 어떻게 판단했을까?",
-     "sub": "법원의 판단은?",
+     "say": "과연 법원은, 누구 손을 들어줬을까?",
+     "sub": "법원은 누구 편?",
      "scene": {
       "type": "vs",
       "left": {
@@ -518,7 +515,10 @@
       }
      ]
     }
-   ]
+   ],
+   "cover": {
+    "emoji": "🏗️"
+   }
   }
  ]
 }
