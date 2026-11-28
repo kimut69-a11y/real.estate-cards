@@ -36,3 +36,14 @@
 | auto/S20261127-12.jpg | [wal_172619 on Pixabay](https://pixabay.com/photos/load-cranes-construction-site-9599974/) | Pixabay License |
 | auto/S20261127-13.jpg | [djacoby on Pixabay](https://pixabay.com/photos/key-west-house-key-west-tropics-142528/) | Pixabay License |
 | auto/S20261127-14.jpg | [sergeitokmakov on Pixabay](https://pixabay.com/photos/gavel-justice-judge-courtroom-7499921/) | Pixabay License |
+| auto/S20261128-1.jpg | [RELIAN on Pixabay](https://pixabay.com/ko/photos/%EA%B1%B4%EB%AC%BC-%EB%B0%9C%EC%BD%94%EB%8B%88-%EC%95%84%ED%8C%8C%ED%8A%B8-5807690/) | Pixabay License |
+| auto/S20261128-2.jpg | [ArtisticOperations on Pixabay](https://pixabay.com/photos/residential-property-new-york-city-2858226/) | Pixabay License |
+| auto/S20261128-3.jpg | [congerdesign on Pixabay](https://pixabay.com/photos/key-keychain-old-metal-iron-629962/) | Pixabay License |
+| auto/S20261128-4.jpg | [HolgersFotografie on Pixabay](https://pixabay.com/photos/a-book-books-read-hand-isolated-2773841/) | Pixabay License |
+| auto/S20261128-5.jpg | [ed_davad on Pixabay](https://pixabay.com/photos/window-frame-curtains-curtain-405253/) | Pixabay License |
+| auto/S20261128-6.jpg | [Nemo_Jo on Pixabay](https://pixabay.com/photos/korea-republic-of-korea-seoul-3448689/) | Pixabay License |
+| auto/S20261128-7.jpg | [creatifrankenstein on Pixabay](https://pixabay.com/photos/nature-window-sunset-balcony-4092013/) | Pixabay License |
+| auto/S20261128-8.jpg | [REDioACTIVE on Pixabay](https://pixabay.com/photos/money-don-korean-money-call-saving-1858621/) | Pixabay License |
+| auto/S20261128-9.jpg | [QuinceCreative on Pixabay](https://pixabay.com/photos/gavel-hammer-justice-legal-judge-3577254/) | Pixabay License |
+| auto/S20261128-10.jpg | [Heartywizard on Pixabay](https://pixabay.com/photos/korea-han-river-seoul-relics-1016994/) | Pixabay License |
+| auto/S20261128-11.jpg | [makamuki0 on Pixabay](https://pixabay.com/photos/key-lock-rustic-door-red-976352/) | Pixabay License |

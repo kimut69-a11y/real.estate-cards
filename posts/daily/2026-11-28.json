@@ -29,7 +29,8 @@
         "아파트"
        ],
        "label": "아랫집 누수 피해",
-       "emoji": "🏠"
+       "emoji": "🏠",
+       "photo": "auto/S20261128-1"
       },
       {
        "type": "emoji",
@@ -66,7 +67,8 @@
         "window caulking"
        ],
        "label": "윗집 창문틀",
-       "emoji": "🪟"
+       "emoji": "🪟",
+       "photo": "auto/S20261128-2"
       }
      ],
      "hl": [
@@ -119,7 +121,8 @@
         "door key"
        ],
        "label": "윗집은 세입자 거주",
-       "emoji": "🔑"
+       "emoji": "🔑",
+       "photo": "auto/S20261128-3"
       }
      ],
      "hl": [
@@ -150,7 +153,8 @@
         "legal documents"
        ],
        "label": "손해배상 소송",
-       "emoji": "📄"
+       "emoji": "📄",
+       "photo": "auto/S20261128-4"
       }
      ],
      "hl": [
@@ -196,7 +200,8 @@
         "window caulking"
        ],
        "label": "원인 다툼",
-       "emoji": "❓"
+       "emoji": "❓",
+       "photo": "auto/S20261128-5"
       },
       {
        "type": "char",
@@ -229,7 +234,8 @@
         "아파트"
        ],
        "label": "공용부분 주장",
-       "emoji": "🏢"
+       "emoji": "🏢",
+       "photo": "auto/S20261128-6"
       },
       {
        "type": "emoji",
@@ -280,7 +286,8 @@
         "window caulking"
        ],
        "label": "알기 어려운 틈",
-       "emoji": "🔍"
+       "emoji": "🔍",
+       "photo": "auto/S20261128-7"
       },
       {
        "type": "big",
@@ -304,7 +311,8 @@
         "korean money"
        ],
        "label": "집주인 배상",
-       "emoji": "💰"
+       "emoji": "💰",
+       "photo": "auto/S20261128-8"
       },
       {
        "type": "money",
@@ -344,7 +352,8 @@
         "law gavel"
        ],
        "label": "2심 판결",
-       "emoji": "⚖️"
+       "emoji": "⚖️",
+       "photo": "auto/S20261128-9"
       }
      ],
      "hl": [
@@ -432,7 +441,8 @@
         "아파트"
        ],
        "label": "지은 지 19년",
-       "emoji": "🏢"
+       "emoji": "🏢",
+       "photo": "auto/S20261128-10"
       },
       {
        "type": "emoji",
@@ -462,7 +472,8 @@
         "door key"
        ],
        "label": "집주인 책임",
-       "emoji": "🔑"
+       "emoji": "🔑",
+       "photo": "auto/S20261128-11"
       }
      ],
      "hl": [
